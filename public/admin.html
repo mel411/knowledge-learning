@@ -57,7 +57,7 @@ async function checkAdmin() {
   }
 
   try {
-    const res = await fetch("http://localhost:3001/api/admin", {
+    const res = await fetch("/api/admin", {
       headers: {
         "Authorization": "Bearer " + token
       }
@@ -80,7 +80,7 @@ checkAdmin();
 // LOAD USERS
 async function loadUsers() {
   try {
-    const res = await fetch("http://localhost:3001/api/admin/users", {
+    const res = await fetch("/api/admin/users", {
       headers: {
         "Authorization": "Bearer " + token
       }
@@ -108,7 +108,7 @@ async function loadUsers() {
 // LOAD PURCHASES
 async function loadPurchases() {
   try {
-    const res = await fetch("http://localhost:3001/api/admin/purchases", {
+    const res = await fetch("/api/admin/purchases", {
       headers: {
         "Authorization": "Bearer " + token
       }

@@ -65,7 +65,7 @@ let csrfToken = "";
 let token = localStorage.getItem("token") || "";
 
 async function loadCSRF() {
-  const res = await fetch("http://localhost:3001/api/csrf-token", {
+  const res = await fetch("/api/csrf-token", {
     credentials: "include"
   });
   const data = await res.json();
@@ -74,7 +74,7 @@ async function loadCSRF() {
 
 // LOAD CURSUS
 async function loadCursus() {
-  const res = await fetch("http://localhost:3001/api/cursus", {
+  const res = await fetch("/api/cursus", {
     credentials: "include"
   });
   const data = await res.json();
@@ -213,7 +213,7 @@ async function loadUser() {
   }
 
   try {
-    const res = await fetch("http://localhost:3001/api/me", {
+    const res = await fetch("/api/me", {
       headers: {
         "Authorization": "Bearer " + token
       }
