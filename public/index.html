@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Knowledge Learning</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="/images/Favicon.ico">
+
+  <script src="/auth.js"></script>
+
+</head>
+
+<body>
+
+  <div id="header"></div>
+
+  <div class="hero"> 
+    <h1>Plateforme e-learning</h1> 
+    <p>Apprendre. Progresser. Réussir.</p> 
+  </div>
+
+<div class="container">
+
+  <!-- REGISTER -->
+  <h2>Inscription</h2>
+  <input id="registerName" placeholder="Nom">
+  <input id="registerEmail" placeholder="Email">
+  <input id="registerPassword" placeholder="Mot de passe">
+  <button onclick="register()">S'inscrire</button>
+
+  <!-- ACTIVATION INFO -->
+  <p id="registerInfo" style="font-size: 14px; color: #384050;">
+    Après inscription, utilisez le lien d’activation reçu.
+  </p>
+
+  <!-- LOGIN -->
+  <h2>Connexion</h2>
+  <input id="loginEmail" placeholder="Email">
+  <input id="loginPassword" placeholder="Mot de passe">
+  <button onclick="login()">Se connecter</button>
+  <p id="loginMessage"></p>
+
+  <!-- THEMES -->
+  <h2>Thèmes disponibles</h2>
+  <ul>
+    <li>Musique</li>
+    <li>Informatique</li>
+    <li>Jardinage</li>
+    <li>Cuisine</li>
+  </ul>
+
+  <!-- CURSUS DYNAMIC -->
+  <h2>Cursus disponibles</h2>
+  <ul id="cursusList"></ul>
+
+  <!-- MESSAGE -->
+  <p id="message"></p>
+
+</div>
+
+<script>
+let csrfToken = "";
+let token = localStorage.getItem("token") || "";
+
+async function loadCSRF() {
+  const res = await fetch("http://localhost:3001/api/csrf-token", {
+    credentials: "include"
+  });
+  const data = await res.json();
+  csrfToken = data.csrfToken;
+}
+
+// LOAD CURSUS
+async function loadCursus() {
+  const res = await fetch("http://localhost:3001/api/cursus", {
+    credentials: "include"
+  });
+  const data = await res.json();
+  console.log(data);
+
+  const container = document.getElementById("cursusList");
+  container.innerHTML = "";
+
+  data.forEach(cursus => {
+    container.innerHTML += `
+      <div class="card">
+        <h3>${cursus.title}</h3>
+        <p class="price">${cursus.price}€</p>
+
+        <a href="/lesson.html?cursus=${cursus.id}" class="link">
+          Voir les leçons
+        </a>
+
+        <button onclick="acheterCursus(${cursus.id}, this)" class="buy-btn">
+          Acheter
+        </button>
+
+        <p class="buy-message"></p>
+      </div>
+    `;
+  });
+}
+
+// REGISTER
+async function register() {
+  const name = document.getElementById("registerName").value;
+  const email = document.getElementById("registerEmail").value;
+  const password = document.getElementById("registerPassword").value;
+
+  const res = await fetch("/api/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "CSRF-Token": csrfToken
+    },
+    body: JSON.stringify({ name, email, password })
+  });
+
+  const data = await res.json();
+
+  const info = document.getElementById("registerInfo");
+
+  if (res.ok) {
+    info.innerText = "Inscription réussie. Vérifiez votre email pour activer votre compte.";
+    info.style.color = "green";
+  } else {
+    info.innerText = data.message || "Erreur lors de l'inscription";
+    info.style.color = "red";
+  }
+}
+
+// LOGIN
+async function login() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "CSRF-Token": csrfToken
+    },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+
+  const el = document.getElementById("loginMessage");
+
+  if (data.token) {
+    token = data.token;
+    localStorage.setItem("token", token);
+
+    localStorage.setItem("userEmail", email);
+
+    updateUserUI();
+
+    el.innerText = "Connexion réussie !";
+    el.className = "success";
+
+  } else {
+    el.innerText = data.message;
+    el.className = "error";
+  }
+}
+
+// check if user is connected
+function isLoggedIn() {
+  return localStorage.getItem("token");
+}
+
+// BUY (sandbox)
+async function acheterCursus(id, button) {
+  const res = await fetch("/api/purchase/cursus", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "CSRF-Token": csrfToken,
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ cursus_id: id })
+  });
+
+  const data = await res.json();
+
+  const messageEl = button.nextElementSibling;
+
+  messageEl.innerText = data.message;
+  messageEl.className = res.ok ? "success" : "error";
+
+  if (res.ok) {
+    button.disabled = true;
+    button.innerText = "Déjà acheté";
+  }
+
+}
+
+(async () => {
+  await loadCSRF();
+  await loadCursus();
+})();
+
+async function loadUser() {
+  const token = localStorage.getItem("token");
+
+  const userInfo = document.getElementById("userInfo");
+
+  if (!token) {
+    userInfo.innerText = "Invité";
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:3001/api/me", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (!res.ok) {
+      userInfo.innerText = "Invité";
+      return;
+    }
+
+    const data = await res.json();
+
+    userInfo.innerText = `${data.email} (${data.role})`;
+
+  } catch (error) {
+    userInfo.innerText = "Erreur";
+  }
+}
+
+loadUser();
+
+function updateUserUI() {
+  const userInfo = document.getElementById("userInfo");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    // NOT CONNECTED
+    userInfo.innerText = "Invité";
+    logoutBtn.style.display = "none";
+    return;
+  } 
+  
+  // CONNECTED
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    let email = payload.email;
+
+    if (!email) {
+      email = localStorage.getItem("userEmail");
+    }
+
+    userInfo.textContent = email || "";
+
+    logoutBtn.style.display = "inline-block";
+
+  } catch (e) {
+    userInfo.textContent = "Invité";
+    logoutBtn.style.display = "none";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('http://localhost:3001/header.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header').innerHTML = data;
+
+      updateUserUI(); 
+    })
+    .catch(err => console.error("Header error:", err));
+
+});
+</script>
+
+<footer>
+  <p>© 2026 Knowledge Learning</p>
+  <p>Projet e-learning - Développement web</p>
+</footer>
+
+</body>
+</html>

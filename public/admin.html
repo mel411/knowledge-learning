@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="/auth.js"></script>
+  <link rel="icon" href="/images/Favicon.ico">
+  
+</head>
+
+<body>
+
+  <dev id="header"></dev>
+
+  <div class="hero">
+  <h2>Backoffice administrateur</h2>
+  <p>Gestion de la plateforme</p>
+  </div>
+
+<div class="container" id="adminContent">
+  <h1>Backoffice administrateur</h1>
+  <p style="text-align:center; color:#666;">
+    Gérez les utilisateurs et les achats de la plateforme
+  </p>
+
+  <button class="admin-btn" onclick="loadUsers()">Voir les utilisateurs</button>
+  <button class="admin-btn" onclick="loadPurchases()">Voir les achats</button>
+
+  <ul id="list"></ul>
+  <p id="message"></p>
+</div>
+
+<div class="container" id="accessDenied" style="display:none; text-align:center;">
+  <h2 style="color:#c0392b;">Accès refusé</h2>
+  <p style="color:#666;">Cette page est réservée aux administrateurs</p>
+
+  <button onclick="window.location.href='/'" class="admin-btn">
+    Retour à l'accueil
+  </button>
+</div>
+
+<script>
+let token = localStorage.getItem("token");
+
+// CHECK ADMIN ACCESS
+async function checkAdmin() {
+  const adminContent = document.getElementById("adminContent");
+  const denied = document.getElementById("accessDenied");
+
+  if (!token) {
+    adminContent.style.display = "none";
+    denied.style.display = "block";
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:3001/api/admin", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (!res.ok) {
+      adminContent.style.display = "none";
+      denied.style.display = "block";
+    }
+
+  } catch (error) {
+    adminContent.style.display = "none";
+    denied.style.display = "block";
+  }
+}
+
+checkAdmin();
+
+
+// LOAD USERS
+async function loadUsers() {
+  try {
+    const res = await fetch("http://localhost:3001/api/admin/users", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+
+    data.forEach(user => {
+      const li = document.createElement("li");
+
+      li.innerText = `${user.email} (${user.role})`;
+
+      list.appendChild(li);
+    });
+
+  } catch (error) {
+    document.getElementById("message").innerText = "Erreur lors du chargement des utilisateurs";
+  }
+}
+
+
+// LOAD PURCHASES
+async function loadPurchases() {
+  try {
+    const res = await fetch("http://localhost:3001/api/admin/purchases", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+    if (data.length === 0) {
+      list.innerHTML = "<p>Aucune donnée disponible</p>";
+      return;
+    }
+
+    data.forEach(p => {
+      const li = document.createElement("li");
+
+      // SMART DISPLAY
+      if (p.cursus_title) {
+        li.innerText = `${p.email} a acheté le cursus "${p.cursus_title}"`;
+      } else if (p.lesson_title) {
+        li.innerText = `${p.email} a acheté la leçon "${p.lesson_title}"`;
+      } else {
+        li.innerText = `${p.email} (achat inconnu)`;
+      }
+
+      list.appendChild(li);
+    });
+
+  } catch (error) {
+    document.getElementById("message").innerText = "Erreur lors du chargement des achats";
+  }
+}
+
+function updateUserUI() {
+  const userInfo = document.getElementById("userInfo");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (!userInfo || !logoutBtn) return;
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    userInfo.textContent = "Invité";
+    logoutBtn.style.display = "none";
+    return;
+  }
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    let email = payload.email || localStorage.getItem("userEmail");
+
+    userInfo.textContent = email || "";
+    logoutBtn.style.display = "inline-block";
+
+  } catch (e) {
+    userInfo.textContent = "Invité";
+    logoutBtn.style.display = "none";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('http://localhost:3001/header.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header').innerHTML = data;
+      updateUserUI();
+    })
+    .catch(err => console.error("Header error:", err));
+});
+
+</script>
+
+<footer>
+  <p>© 2026 Knowledge Learning</p>
+  <p>Projet e-learning - Développement web</p>
+</footer>
+
+</body>
+</html>

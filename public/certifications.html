@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Certifications</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="/auth.js"></script>
+  <link rel="icon" href="/images/Favicon.ico">
+  
+</head>
+
+<body>
+
+<div id="header"></div>
+
+  <div class="hero">
+  <h2>Vos certifications</h2>
+  <p>Suivez vos réussites</p>
+  </div>
+
+<div class="container">
+
+  <ul id="certList"></ul>
+
+</div>
+
+<script>
+let token = localStorage.getItem("token") || "";
+
+// LOAD CERTIFICATIONS
+async function loadCertifications() {
+  const res = await fetch("/api/certifications", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  const data = await res.json();
+  const container = document.getElementById("certList");
+  container.innerHTML = "";
+
+  if (data.length === 0) {
+    container.innerHTML = "<p>Aucune certification obtenue pour le moment.</p>";
+    return;
+  }
+
+  data.forEach(cert => {
+    container.innerHTML += `
+      <div class="card">
+        <h3>${cert.title}</h3>
+        <p>Certification obtenue ✅</p>
+      </div>
+    `;
+  });
+}
+
+loadCertifications();
+
+function updateUserUI() {
+  const userInfo = document.getElementById("userInfo");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (!userInfo || !logoutBtn) return;
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    userInfo.textContent = "Invité";
+    logoutBtn.style.display = "none";
+    return;
+  }
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    let email = payload.email || localStorage.getItem("userEmail");
+
+    userInfo.textContent = email || "";
+    logoutBtn.style.display = "inline-block";
+
+  } catch (e) {
+    userInfo.textContent = "Invité";
+    logoutBtn.style.display = "none";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('http://localhost:3001/header.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header').innerHTML = data;
+      updateUserUI();
+    })
+    .catch(err => console.error("Header error:", err));
+});
+
+</script>
+
+<footer>
+  <p>© 2026 Knowledge Learning</p>
+  <p>Projet e-learning - Développement web</p>
+</footer>
+
+</body>
+</html>

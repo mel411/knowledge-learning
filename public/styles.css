@@ -1,0 +1,207 @@
+body {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background: #f1f8fc;
+  margin: 0;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 100px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.site-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #00497c;
+}
+
+.logo-link:hover .site-title {
+  color: #0074c7;
+}
+
+.header-left h1 {
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  gap: 20px;
+}
+
+.header-right a {
+  text-decoration: none;
+  color: #0074c7;
+  font-weight: bold;
+}
+
+.header-right a:hover {
+  color: #00497c;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #0074c7;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #00497c;
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-left: 25px;
+}
+
+.user-box span {
+  font-size: 14px;
+  color: #384050;
+  font-weight: bold;
+}
+
+.user-box button {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.hero {
+  background: #0074c7;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.hero h2 {
+  margin: 0;
+}
+
+.hero h1 {
+  color: white;
+}
+
+h1 {
+  color: #00497c;
+}
+
+.subtitle {
+  color: #384050;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  margin-top: 20px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+h2 {
+  color: #0074c7;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #0074c7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #00497c;
+}
+
+.admin-btn {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+}
+
+a {
+  color: #0074c7;
+  display: block;
+  margin: 10px 0;
+}
+
+#message {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.success {
+  color: #82b864;
+}
+
+.error {
+  color: #cd2c2e;
+}
+
+.lesson-card {
+  background: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.lesson-card button {
+  margin-top: 10px;
+}
+
+.lesson-card button:first-of-type {
+  margin-top: 0;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  padding: 15px;
+  background: #384050;
+  color: white;
+  font-size: 14px;
+}

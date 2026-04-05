@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Leçons</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="/auth.js"></script>
+  <link rel="icon" href="/images/Favicon.ico">
+  
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<div class="hero">
+  <h2>Votre formation</h2>
+  <p>Validez vos leçons et progressez</p>
+</div>
+
+<div class="container">
+
+  <div id="lessonsContainer"></div>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 Knowledge Learning</p>
+  <p>Projet e-learning - Développement web</p>
+</footer>
+
+<script>
+
+const token = localStorage.getItem("token");
+
+// GET cursus ID from URL
+const params = new URLSearchParams(window.location.search);
+const cursusId = params.get("cursus");
+
+// LOAD LESSONS
+async function loadLessons() {
+
+  const container = document.getElementById("lessonsContainer");
+
+  if (!cursusId) {
+    container.innerHTML = "<p>Aucun cursus sélectionné. Retournez à l'accueil.</p>";
+    return;
+  }
+
+  const res = await fetch(`/api/cursus/${cursusId}/lessons`);
+  console.log("Response:", res);
+
+  const lessons = await res.json();
+  console.log("Lessons:", lessons);
+
+  container.innerHTML = "";
+
+  for (const lesson of lessons) {
+
+    let hasAccess = false;
+    let alreadyValidated = false;
+    let alreadyBought = false;
+
+    if (token) {
+      const resAccess = await fetch(`/api/access/lesson/${lesson.id}`, {
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      });
+
+      const accessData = await resAccess.json();
+      hasAccess = accessData.access;
+      alreadyBought = accessData.access;
+
+      // check validation
+      const resValidation = await fetch(`/api/validation/check/${lesson.id}`, {
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      });
+
+      const validationData = await resValidation.json();
+      alreadyValidated = validationData.validated;
+    }
+
+    container.innerHTML += `
+      <div class="lesson-card">
+        <h3>${lesson.title}</h3>
+
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Cette leçon vous permet de progresser étape par étape.
+        </p>
+
+        ${hasAccess && lesson.video_url ? `
+          <iframe 
+            width="100%" 
+            height="250" 
+            src="${lesson.video_url}" 
+            frameborder="0" 
+            allowfullscreen>
+          </iframe>
+        ` : `<p style="color: #999;">🔒 Achetez la leçon pour accéder au contenu</p>`}
+
+        <button class="btn-small" 
+          onclick="validateLesson(${lesson.id}, this)"
+          ${!hasAccess || alreadyValidated ? "disabled" : ""}
+        >
+          ${alreadyValidated ? "✔ Leçon validée" : "Valider cette leçon"}
+        </button>
+
+        <button 
+          onclick="buyLesson(${lesson.id}, this)"
+          ${alreadyBought ? "disabled" : ""}
+        >
+          ${alreadyBought ? "✔ Déjà acheté" : "Acheter cette leçon"}
+        </button>
+        
+        <p class="lesson-buy-message"></p>
+      </div>
+    `;
+  }
+}
+
+// VALIDATE LESSON
+async function validateLesson(lessonId, button) {
+
+  if (!token) {
+    alert("Veuillez vous connecter");
+    return;
+  }
+
+  const res = await fetch("/api/validation/lesson", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ lesson_id: lessonId })
+  });
+
+  const data = await res.json();
+
+const messageEl = button.parentElement.querySelector(".lesson-buy-message");
+
+if (data.message.includes("complété")) {
+  messageEl.innerText = "Leçon validée + cursus terminé ! Félicitations !";
+} else {
+  messageEl.innerText = "Leçon validée avec succès !";
+}
+
+messageEl.className = "lesson-buy-message success";
+
+if (res.ok) {
+  button.disabled = true;
+  button.innerText = "✔ Leçon validée";
+}
+
+}
+
+// BUY LESSON 
+async function buyLesson(lessonId, button) {
+
+  if (!token) {
+    alert("Veuillez vous connecter");
+    return;
+  }
+
+  const res = await fetch("/api/purchase/lesson", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ lesson_id: lessonId })
+  });
+
+  const data = await res.json();
+
+  const messageEl = button.nextElementSibling;
+
+  if (res.ok) {
+    messageEl.innerText = "Leçon achetée avec succès !";
+  } else {
+    messageEl.innerText = "Erreur lors de l'achat";
+  }
+
+  messageEl.className = res.ok ? "success" : "error";
+
+  if (res.ok) {
+    button.disabled = true;
+    button.innerText = "Déjà acheté";
+  }
+
+  if (res.ok) {
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
+}
+
+// INIT
+loadLessons();
+
+function updateUserUI() {
+  const userInfo = document.getElementById("userInfo");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (!userInfo || !logoutBtn) return;
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    userInfo.textContent = "Invité";
+    logoutBtn.style.display = "none";
+    return;
+  }
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    let email = payload.email || localStorage.getItem("userEmail");
+
+    userInfo.textContent = email || "";
+    logoutBtn.style.display = "inline-block";
+
+  } catch (e) {
+    userInfo.textContent = "Invité";
+    logoutBtn.style.display = "none";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('http://localhost:3001/header.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header').innerHTML = data;
+      updateUserUI();
+    })
+    .catch(err => console.error("Header error:", err));
+});
+
+</script>
+
+</body>
+</html>
