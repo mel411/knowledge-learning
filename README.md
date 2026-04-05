@@ -36,7 +36,7 @@ Il permet aux utilisateurs de suivre des formations en ligne, valider des leçon
 1. Cloner le projet
 
 ```bash
-git clone <repo-url>
+git clone <(https://github.com/mel411/knowledge-learning)>
 cd knowledge-learning-backend
 
 2. Installer les dépendances
