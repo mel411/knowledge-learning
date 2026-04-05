@@ -48,10 +48,10 @@ async function loadCertifications() {
 
   data.forEach(cert => {
     container.innerHTML += `
-      <div class="card">
+      <li class="cert-card">
         <h3>${cert.title}</h3>
         <p>Certification obtenue ✅</p>
-      </div>
+      </li>
     `;
   });
 }

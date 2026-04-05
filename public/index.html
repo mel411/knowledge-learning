@@ -85,7 +85,7 @@ async function loadCursus() {
 
   data.forEach(cursus => {
     container.innerHTML += `
-      <div class="card">
+      <li class="card">
         <h3>${cursus.title}</h3>
         <p class="price">${cursus.price}€</p>
 
@@ -98,7 +98,7 @@ async function loadCursus() {
         </button>
 
         <p class="buy-message"></p>
-      </div>
+      </li>
     `;
   });
 }
