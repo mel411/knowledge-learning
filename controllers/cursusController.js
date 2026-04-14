@@ -1,25 +1,56 @@
 const db = require('../config/db');
 
-// get all cursus
-exports.getAllCursus = (req, res) => {
-  const query = `SELECT * FROM cursus`;
+// Get all cursus
+exports.getAllCursus = async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        c.id,
+        c.title,
+        c.price,
+        t.name AS theme
+      FROM cursus c
+      JOIN themes t ON c.theme_id = t.id
+      ORDER BY c.id ASC
+    `;
 
-  db.query(query, (err, results) => {
-    if (err) return res.status(500).json({ message: "Server error" });
+    const result = await db.query(query);
 
-    res.json(results);
-  });
+    return res.json(result.rows);
+
+  } catch (error) {
+    console.error("getAllCursus error:", error);
+    return res.status(500).json({
+      message: "Server error"
+    });
+  }
 };
 
-// get lessons by cursus
-exports.getLessonsByCursus = (req, res) => {
-  const { id } = req.params;
+// Get lessons by cursus
+exports.getLessonsByCursus = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  const query = `SELECT * FROM lessons WHERE cursus_id = ?`;
+    const query = `
+      SELECT 
+        id,
+        title,
+        content,
+        video_url,
+        price
+      FROM lessons
+      WHERE cursus_id = $1
+      ORDER BY id ASC
+    `;
 
-  db.query(query, [id], (err, results) => {
-    if (err) return res.status(500).json({ message: "Server error" });
+    const result = await db.query(query, [id]);
 
-    res.json(results);
-  });
+    return res.json(result.rows);
+
+  } catch (error) {
+    console.error("getLessonsByCursus error:", error);
+    return res.status(500).json({
+      message: "Server error"
+    });
+  }
 };

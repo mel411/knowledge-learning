@@ -1,20 +1,30 @@
 const db = require('../config/db');
 
-exports.getLessonsByCursus = (req, res) => {
-  const { cursusId } = req.params;
+// Get lessons by cursus
+exports.getLessonsByCursus = async (req, res) => {
+  try {
+    const { cursusId } = req.params;
 
-  const query = `
-    SELECT id, title, content
-    FROM lessons
-    WHERE cursus_id = ?
-  `;
+    const query = `
+      SELECT 
+        id,
+        title,
+        content,
+        video_url,
+        price
+      FROM lessons
+      WHERE cursus_id = $1
+      ORDER BY id ASC
+    `;
 
-  db.query(query, [cursusId], (err, results) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Erreur serveur" });
-    }
+    const result = await db.query(query, [cursusId]);
 
-    res.json(results);
-  });
+    return res.json(result.rows);
+
+  } catch (error) {
+    console.error("getLessonsByCursus error:", error);
+    return res.status(500).json({
+      message: "Server error"
+    });
+  }
 };
