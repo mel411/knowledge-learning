@@ -4,10 +4,15 @@ const db = require('../config/db');
 exports.simulatePayment = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { type, item_id } = req.body;
+    const { type, lesson_id, cursus_id } = req.body;
+
+    console.log("BODY:", req.body);
+    console.log("TYPE:", type);
+    console.log("lesson_id:", lesson_id);
+    console.log("cursus_id:", cursus_id);
 
     // Validation
-    if (!type || !item_id) {
+    if (!type || (!lesson_id && !cursus_id)) {
       return res.status(400).json({
         message: "Donnees requises manquantes"
       });
@@ -19,6 +24,14 @@ exports.simulatePayment = async (req, res) => {
       });
     }
 
+    if (type === "cursus" && !cursus_id) {
+      return res.status(400).json({ message: "cursus_id requis" });
+    }
+
+    if (type === "lesson" && !lesson_id) {
+      return res.status(400).json({ message: "lesson_id requis" });
+    }
+
     // Simulate payment delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -28,7 +41,7 @@ exports.simulatePayment = async (req, res) => {
       // Prevent duplicate purchase
       const existing = await db.query(
         `SELECT id FROM purchases WHERE user_id = $1 AND cursus_id = $2`,
-        [userId, item_id]
+        [userId, cursus_id]
       );
 
       if (existing.rows.length > 0) {
@@ -38,11 +51,9 @@ exports.simulatePayment = async (req, res) => {
       }
 
       await db.query(
-        `
-        INSERT INTO purchases (user_id, cursus_id, created_at)
-        VALUES ($1, $2, NOW())
-        `,
-        [userId, item_id]
+        `INSERT INTO purchases (user_id, cursus_id, created_at)
+        VALUES ($1, $2, NOW())`,
+        [userId, cursus_id]
       );
 
       return res.json({
@@ -56,7 +67,7 @@ exports.simulatePayment = async (req, res) => {
       // Prevent duplicate purchase
       const existing = await db.query(
         `SELECT id FROM purchases WHERE user_id = $1 AND lesson_id = $2`,
-        [userId, item_id]
+        [userId, lesson_id]
       );
 
       if (existing.rows.length > 0) {
@@ -66,11 +77,9 @@ exports.simulatePayment = async (req, res) => {
       }
 
       await db.query(
-        `
-        INSERT INTO purchases (user_id, lesson_id, created_at)
-        VALUES ($1, $2, NOW())
-        `,
-        [userId, item_id]
+        `INSERT INTO purchases (user_id, lesson_id, created_at)
+        VALUES ($1, $2, NOW())`,
+        [userId, lesson_id]
       );
 
       return res.json({

@@ -1,8 +1,6 @@
 const db = require('../config/db');
 
-// ==============================
 // VALIDATE LESSON
-// ==============================
 exports.validateLesson = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -13,17 +11,9 @@ exports.validateLesson = async (req, res) => {
 
     const { lesson_id } = req.body;
 
-    // Check if user has access (lesson or cursus)
-    const accessQuery = `
-      SELECT id FROM purchases
-      WHERE user_id = $1
-      AND (
-        lesson_id = $2
-        OR cursus_id = (
-          SELECT cursus_id FROM lessons WHERE id = $2
-        )
-      )
-    `;
+    // 1. Check if user has access (lesson or cursus)
+    const accessQuery =
+      "SELECT id FROM purchases WHERE user_id = $1 AND (lesson_id = $2 OR cursus_id = (SELECT cursus_id FROM lessons WHERE id = $2))";
 
     const accessResult = await db.query(accessQuery, [userId, lesson_id]);
 
@@ -33,14 +23,11 @@ exports.validateLesson = async (req, res) => {
       });
     }
 
-    // Check if already validated
-    const existingValidation = await db.query(
-      `
-      SELECT id FROM validations 
-      WHERE user_id = $1 AND lesson_id = $2
-      `,
-      [userId, lesson_id]
-    );
+    // 2. Check if already validated
+    const existingValidationQuery =
+      "SELECT id FROM validations WHERE user_id = $1 AND lesson_id = $2";
+
+    const existingValidation = await db.query(existingValidationQuery, [userId, lesson_id]);
 
     if (existingValidation.rows.length > 0) {
       return res.status(400).json({
@@ -48,25 +35,17 @@ exports.validateLesson = async (req, res) => {
       });
     }
 
-    // Insert validation
-    await db.query(
-      `
-      INSERT INTO validations (user_id, lesson_id, validated_at)
-      VALUES ($1, $2, NOW())
-      `,
-      [userId, lesson_id]
-    );
+    // 3. Insert validation
+    const insertValidationQuery =
+      "INSERT INTO validations (user_id, lesson_id, validated_at) VALUES ($1, $2, NOW())";
 
-    // Get all lessons from same cursus
-    const lessonsResult = await db.query(
-      `
-      SELECT id, cursus_id FROM lessons
-      WHERE cursus_id = (
-        SELECT cursus_id FROM lessons WHERE id = $1
-      )
-      `,
-      [lesson_id]
-    );
+    await db.query(insertValidationQuery, [userId, lesson_id]);
+
+    // 4. Get all lessons from same cursus
+    const lessonsQuery =
+      "SELECT id, cursus_id FROM lessons WHERE cursus_id = (SELECT cursus_id FROM lessons WHERE id = $1)";
+
+    const lessonsResult = await db.query(lessonsQuery, [lesson_id]);
 
     if (lessonsResult.rows.length === 0) {
       return res.status(500).json({ message: "Erreur serveur" });
@@ -75,29 +54,33 @@ exports.validateLesson = async (req, res) => {
     const lessonIds = lessonsResult.rows.map(l => l.id);
     const cursusId = lessonsResult.rows[0].cursus_id;
 
-    // Count validated lessons
-    const countResult = await db.query(
-      `
-      SELECT COUNT(*) AS total
-      FROM validations
-      WHERE user_id = $1
-      AND lesson_id = ANY($2)
-      `,
-      [userId, lessonIds]
-    );
+    // 5. Count validated lessons (SAFE VERSION using IN)
+    let validatedCount = 0;
 
-    const validatedCount = parseInt(countResult.rows[0].total, 10);
+    if (lessonIds.length > 0) {
+      const placeholders = lessonIds.map((_, i) => `$${i + 2}`).join(",");
 
-    // If all lessons validated → certification
+      const countQuery = `
+        SELECT COUNT(DISTINCT lesson_id) AS total
+        FROM validations
+        WHERE user_id = $1
+        AND lesson_id IN (${placeholders})
+      `;
+
+      const countResult = await db.query(countQuery, [userId, ...lessonIds]);
+      validatedCount = parseInt(countResult.rows[0].total, 10);
+    }
+
+    console.log("validatedCount:", validatedCount);
+    console.log("lessonIds.length:", lessonIds.length);
+
+    // 6. If all lessons validated → certification
     if (validatedCount === lessonIds.length) {
 
-      const existingCert = await db.query(
-        `
-        SELECT id FROM certifications
-        WHERE user_id = $1 AND cursus_id = $2
-        `,
-        [userId, cursusId]
-      );
+      const existingCertQuery =
+        "SELECT id FROM certifications WHERE user_id = $1 AND cursus_id = $2";
+
+      const existingCert = await db.query(existingCertQuery, [userId, cursusId]);
 
       if (existingCert.rows.length > 0) {
         return res.json({
@@ -105,13 +88,10 @@ exports.validateLesson = async (req, res) => {
         });
       }
 
-      await db.query(
-        `
-        INSERT INTO certifications (user_id, cursus_id, obtained_at)
-        VALUES ($1, $2, NOW())
-        `,
-        [userId, cursusId]
-      );
+      const insertCertQuery =
+        "INSERT INTO certifications (user_id, cursus_id, obtained_at) VALUES ($1, $2, NOW())";
+
+      await db.query(insertCertQuery, [userId, cursusId]);
 
       return res.json({
         message: "Leçon validée + cursus complété !"
@@ -137,13 +117,10 @@ exports.checkValidation = async (req, res) => {
     const userId = req.user.id;
     const lessonId = req.params.id;
 
-    const result = await db.query(
-      `
-      SELECT id FROM validations
-      WHERE user_id = $1 AND lesson_id = $2
-      `,
-      [userId, lessonId]
-    );
+    const query =
+      "SELECT id FROM validations WHERE user_id = $1 AND lesson_id = $2";
+
+    const result = await db.query(query, [userId, lessonId]);
 
     return res.json({
       validated: result.rows.length > 0

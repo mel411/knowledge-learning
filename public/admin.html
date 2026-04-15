@@ -86,21 +86,37 @@ async function loadUsers() {
       }
     });
 
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+
     const data = await res.json();
+    console.log("Users response data:", data); // DEBUG
 
     const list = document.getElementById("list");
     list.innerHTML = "";
 
+    if (!Array.isArray(data)) {
+      console.error("Expected array but got:", typeof data, data);
+      list.innerHTML = "<li>Erreur: réponse inattendue du serveur</li>";
+      return;
+    }
+
+    if (data.length === 0) {
+      list.innerHTML = "<li>Aucun utilisateur trouvé</li>";
+      return;
+    }
+
     data.forEach(user => {
       const li = document.createElement("li");
-
       li.innerText = `${user.email} (${user.role})`;
-
       list.appendChild(li);
     });
 
   } catch (error) {
-    document.getElementById("message").innerText = "Erreur lors du chargement des utilisateurs";
+    console.error("Erreur lors du chargement des utilisateurs:", error);
+    const list = document.getElementById("list");
+    list.innerHTML = "<li>Erreur lors du chargement des utilisateurs</li>";
   }
 }
 
@@ -114,12 +130,24 @@ async function loadPurchases() {
       }
     });
 
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+
     const data = await res.json();
+    console.log("Purchases response data:", data); // DEBUG
 
     const list = document.getElementById("list");
     list.innerHTML = "";
+
+    if (!Array.isArray(data)) {
+      console.error("Expected array but got:", typeof data, data);
+      list.innerHTML = "<li>Erreur: réponse inattendue du serveur</li>";
+      return;
+    }
+
     if (data.length === 0) {
-      list.innerHTML = "<p>Aucune donnée disponible</p>";
+      list.innerHTML = "<li>Aucune donnée disponible</li>";
       return;
     }
 
@@ -139,7 +167,9 @@ async function loadPurchases() {
     });
 
   } catch (error) {
-    document.getElementById("message").innerText = "Erreur lors du chargement des achats";
+    console.error("Erreur lors du chargement des achats:", error);
+    const list = document.getElementById("list");
+    list.innerHTML = "<li>Erreur lors du chargement des achats</li>";
   }
 }
 
@@ -182,10 +212,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
-<footer>
-  <p>© 2026 Knowledge Learning</p>
-  <p>Projet e-learning - Développement web</p>
-</footer>
+<div id="footer"></div>
+
+<script>
+fetch('/footer.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('footer').innerHTML = data;
+  });
+</script>
 
 </body>
 </html>

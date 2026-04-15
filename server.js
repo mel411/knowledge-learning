@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
-require('dotenv').config();
 const db = require('./config/db');
 const path = require('path');
 
@@ -63,7 +63,8 @@ app.get('/api/admin/users', verifyToken, isAdmin, (req, res) => {
       console.error(err);
       return res.status(500).json({ message: "Erreur serveur" });
     }
-    res.json(results);
+    console.log("Users data:", results.rows); // DEBUG
+    res.json(results.rows);
   });
 });
 
@@ -85,29 +86,30 @@ app.get('/api/admin/purchases', verifyToken, isAdmin, (req, res) => {
       return res.status(500).json({ message: "Erreur serveur" });
     }
 
-    res.json(results);
+    console.log("Purchases data:", results.rows); // DEBUG
+    res.json(results.rows);
   });
 });
 
-app.get('/api/me', verifyToken, (req, res) => {
+app.get('/api/me', verifyToken, async(req, res) => {
   const userId = req.user.id;
 
-  db.query(
-    "SELECT email, role FROM users WHERE id = ?",
-    [userId],
-    (err, results) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Erreur serveur" });
-      }
-
-      if (results.length === 0) {
-        return res.status(404).json({ message: "Utilisateur introuvable" });
-      }
-
-      res.json(results[0]);
-    }
+  try {
+  const result = await db.query(
+    "SELECT email, role FROM users WHERE id = $1",
+    [userId]
   );
+
+  if (result.rows.length === 0) {
+    return res.status(404).json({ message: "Utilisateur introuvable" });
+  }
+
+  res.json(result.rows[0]);
+
+} catch (err) {
+  console.error(err);
+  return res.status(500).json({ message: "Erreur serveur" });
+}
 });
 
 // start server

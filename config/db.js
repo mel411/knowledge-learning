@@ -1,15 +1,14 @@
 const { Pool } = require('pg');
-require('dotenv').config();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  host: 'aws-0-eu-west-1.pooler.supabase.com',
+  port: 6543,
+  user: 'postgres.rpxgjrngdldfzvmeskyc',
+  password: '223245Eli.!',
+  database: 'postgres',
   ssl: {
     rejectUnauthorized: false,
   },
 });
-
-pool.connect()
-  .then(() => console.log("PostgreSQL connected"))
-  .catch(err => console.error("Connection error", err));
 
 module.exports = pool;

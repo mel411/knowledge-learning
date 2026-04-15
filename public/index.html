@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <title>Knowledge Learning</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="/images/Favicon.ico">
 
@@ -281,10 +283,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<footer>
-  <p>© 2026 Knowledge Learning</p>
-  <p>Projet e-learning - Développement web</p>
-</footer>
+<div id="footer"></div>
+
+<script>
+fetch('/footer.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('footer').innerHTML = data;
+  });
+</script>
 
 </body>
 </html>

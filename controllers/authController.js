@@ -105,13 +105,81 @@ exports.activateAccount = async (req, res) => {
     }
 
     return res.send(`
-      <div style="font-family: Arial; text-align: center; margin-top: 50px;">
-        <h2 style="color: green;">Account successfully activated</h2>
-        <p>You can now log in to your account.</p>
-        <a href="http://localhost:3001" style="color: blue;">
-          Back to homepage
-        </a>
-      </div>
+      <!DOCTYPE html>
+      <html lang="fr">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Compte activé</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(circle at 30% 30%, #0074c7, #00497c 60%, #002f5a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+          }
+
+          .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 45px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 
+              0 20px 60px rgba(0,0,0,0.25),
+              0 0 40px rgba(0,116,199,0.2);
+            max-width: 420px;
+            transition: transform 0.3s ease;
+          }
+
+          .card:hover {
+            transform: translateY(-5px);
+          }
+
+          h1 {
+            color: #82b864;
+            font-size: 28px;
+            margin bottom: 15px;
+          }
+
+          p {
+            font-size: 15px;
+            color: #384050;
+            margin: 8px 0;
+          }
+
+          a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0074c7, #00497c);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+          }
+
+          a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+          }
+
+        </style>
+      </head>
+
+      <body>
+        <div class="card">
+          <h1>Compte activé</h1>
+          <p>Votre compte a été activé avec succès.</p>
+          <p>Vous pouvez maintenant vous connecter.</p>
+          <a href="http://localhost:3001">Retour à l'accueil</a>
+        </div>
+      </body>
+      </html>
     `);
 
   } catch (error) {

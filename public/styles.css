@@ -1,17 +1,19 @@
 body {
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  background: #f1f8fc;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef4f9 100%);
   margin: 0;
-  padding: 20px;
+  color: #1f2d3d;
+  padding: 0px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  background: #ffffff;
-  border-bottom: 1px solid #ddd;
+  padding: 20px 60px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
 }
 
 .header-left {
@@ -33,9 +35,10 @@ body {
 }
 
 .site-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #00497c;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2d3d;
+  letter-spacing: 0.3px;
 }
 
 .logo-link:hover .site-title {
@@ -96,12 +99,15 @@ nav a:hover {
 }
 
 .hero {
-  background: #0074c7;
+  background: linear-gradient(135deg, #00497c, #0074c7);
   color: white;
   text-align: center;
-  padding: 40px 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  padding: 50px 30px;
+  border-radius: 20px;
+  border-radius: 16px;
+  margin: 40px auto 30px auto;
+  max-width: 900px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
 }
 
 .hero h2 {
@@ -109,7 +115,15 @@ nav a:hover {
 }
 
 .hero h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 8px;
   color: white;
+}
+
+.hero p {
+  font-size: 15px;
+  opacity: 0.9;
 }
 
 h1 {
@@ -121,40 +135,59 @@ h1 {
 }
 
 .container {
-  max-width: 420px;
-  margin: auto;
-  margin-top: 20px;
+  max-width: 720px;
+  margin: 40px auto;
   background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.06);
 }
 
 h2 {
-  color: #0074c7;
+  color: #00497c;
+  margin-top: 30px;
+  margin-bottom: 15px;
 }
 
 input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  width: 690px;
+  padding: 14px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  border-color: #0074c7;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,116,199,0.1);
 }
 
 button {
   width: 100%;
-  padding: 10px;
-  background: #0074c7;
+  padding: 14px;
+  background: linear-gradient(135deg, #0074c7, #00497c);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
 }
 
 button:hover {
-  background: #00497c;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+#registerInfo {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 10px;
+  margin-bottom: 25px;
 }
 
 .admin-btn {
@@ -229,11 +262,81 @@ a {
   ;
 }
 
-footer {
-  margin-top: 40px;
-  text-align: center;
-  padding: 15px;
-  background: #384050;
-  color: white;
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+h1, h2 {
+  letter-spacing: -0.3px;
+}
+
+.container h2 {
+  margin-bottom: 20px;
+}
+
+.footer {
+  background: linear-gradient(180deg, #0f172a, #020617);
+  color: #e5e7eb;
+  padding: 60px 20px 30px;
+  margin-top: 80px;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.footer-column h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.footer-column h4 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #93c5fd;
+}
+
+.footer-column p {
   font-size: 14px;
+  color: #cbd5f5;
+  line-height: 1.6;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  color: #cbd5f5;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-column ul li a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 13px;
+  color: #94a3b8;
 }

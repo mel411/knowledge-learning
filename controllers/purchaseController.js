@@ -30,10 +30,7 @@ exports.buyCursus = async (req, res) => {
 
     // Vérifier achat existant
     const existingPurchase = await db.query(
-      `
-      SELECT id FROM purchases 
-      WHERE user_id = $1 AND cursus_id = $2
-      `,
+      "SELECT id FROM purchases WHERE user_id = $1 AND cursus_id = $2",
       [userId, cursus_id]
     );
 
@@ -45,10 +42,7 @@ exports.buyCursus = async (req, res) => {
 
     // Insérer achat
     await db.query(
-      `
-      INSERT INTO purchases (user_id, cursus_id, created_at)
-      VALUES ($1, $2, NOW())
-      `,
+      "INSERT INTO purchases (user_id, cursus_id, created_at) VALUES ($1, $2, NOW())",
       [userId, cursus_id]
     );
 
@@ -94,10 +88,7 @@ exports.buyLesson = async (req, res) => {
 
     // Vérifier achat existant
     const existingPurchase = await db.query(
-      `
-      SELECT id FROM purchases 
-      WHERE user_id = $1 AND lesson_id = $2
-      `,
+      "SELECT id FROM purchases WHERE user_id = $1 AND lesson_id = $2",
       [userId, lesson_id]
     );
 
@@ -109,10 +100,7 @@ exports.buyLesson = async (req, res) => {
 
     // Insérer achat
     await db.query(
-      `
-      INSERT INTO purchases (user_id, lesson_id, created_at)
-      VALUES ($1, $2, NOW())
-      `,
+      "INSERT INTO purchases (user_id, lesson_id, created_at) VALUES ($1, $2, NOW())",
       [userId, lesson_id]
     );
 

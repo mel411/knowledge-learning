@@ -38,8 +38,16 @@ async function loadCertifications() {
   });
 
   const data = await res.json();
+  console.log("Certifications data:", data); // DEBUG: Check response structure
+  
   const container = document.getElementById("certList");
   container.innerHTML = "";
+
+  if (!Array.isArray(data)) {
+    console.error("Expected array but got:", typeof data, data);
+    container.innerHTML = "<p>Erreur: réponse inattendue du serveur.</p>";
+    return;
+  }
 
   if (data.length === 0) {
     container.innerHTML = "<p>Aucune certification obtenue pour le moment.</p>";
@@ -97,10 +105,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
-<footer>
-  <p>© 2026 Knowledge Learning</p>
-  <p>Projet e-learning - Développement web</p>
-</footer>
+<div id="footer"></div>
+
+<script>
+fetch('/footer.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('footer').innerHTML = data;
+  });
+</script>
 
 </body>
 </html>
