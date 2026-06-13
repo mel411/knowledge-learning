@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Conditions Générales | Knowledge Learning</title>
+
+  <meta
+    name="description"
+    content="Consultez les conditions générales d’utilisation et de vente de Knowledge Learning."
+  />
+
+  <link rel="icon" href="images/Favicon.ico">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div id="header"></div>
+
+  <main class="legal-page">
+
+    <!-- HERO -->
+    <section class="legal-hero">
+
+      <div class="legal-label">
+        Informations légales
+      </div>
+
+      <h1>
+        Conditions générales
+      </h1>
+
+      <p class="legal-intro">
+        Les présentes conditions encadrent l’accès, l’utilisation et les services proposés par Knowledge Learning.
+      </p>
+
+    </section>
+
+    <!-- CONTENT -->
+    <section class="legal-wrapper">
+
+      <!-- SIDEBAR -->
+      <aside class="legal-sidebar">
+
+        <div class="legal-sidebar-card">
+
+          <p class="legal-sidebar-title">
+            Navigation
+          </p>
+
+          <a href="#objet">Objet</a>
+          <a href="#services">Services</a>
+          <a href="#compte">Compte utilisateur</a>
+          <a href="#paiement">Paiement</a>
+          <a href="#acces">Accès aux formations</a>
+          <a href="#propriete">Propriété intellectuelle</a>
+          <a href="#responsabilite">Responsabilité</a>
+          <a href="#modification">Modification</a>
+          <a href="#contact">Contact</a>
+
+        </div>
+
+      </aside>
+
+      <!-- MAIN -->
+      <div class="legal-content">
+
+        <section id="objet" class="legal-block">
+
+          <h2>1. Objet</h2>
+
+          <p>
+            Les présentes conditions générales définissent les modalités d’utilisation de la plateforme Knowledge Learning ainsi que les conditions applicables aux services et formations proposés.
+          </p>
+
+        </section>
+
+        <section id="services" class="legal-block">
+
+          <h2>2. Services proposés</h2>
+
+          <p>
+            Knowledge Learning propose des formations en ligne, des contenus pédagogiques et des ressources destinées au développement des compétences professionnelles et personnelles.
+          </p>
+
+        </section>
+
+        <section id="compte" class="legal-block">
+
+          <h2>3. Compte utilisateur</h2>
+
+          <p>
+            Certaines fonctionnalités nécessitent la création d’un compte personnel. L’utilisateur est responsable des informations fournies ainsi que de la confidentialité de ses identifiants.
+          </p>
+
+        </section>
+
+        <section id="paiement" class="legal-block">
+
+          <h2>4. Paiement</h2>
+
+          <p>
+            Les prix affichés sur la plateforme sont exprimés en euros. Les paiements sont sécurisés et réalisés via les solutions de paiement proposées par la plateforme.
+          </p>
+
+        </section>
+
+        <section id="acces" class="legal-block">
+
+          <h2>5. Accès aux formations</h2>
+
+          <p>
+            Après validation du paiement, l’utilisateur obtient l’accès aux contenus achetés conformément aux modalités précisées sur la plateforme.
+          </p>
+
+        </section>
+
+        <section id="propriete" class="legal-block">
+
+          <h2>6. Propriété intellectuelle</h2>
+
+          <p>
+            L’ensemble des contenus, formations, vidéos, textes, visuels et éléments présents sur Knowledge Learning sont protégés par les droits de propriété intellectuelle.
+          </p>
+
+        </section>
+
+        <section id="responsabilite" class="legal-block">
+
+          <h2>7. Responsabilité</h2>
+
+          <p>
+            Knowledge Learning s’efforce d’assurer un accès continu à la plateforme mais ne peut garantir l’absence d’interruptions temporaires ou de problèmes techniques.
+          </p>
+
+        </section>
+
+        <section id="modification" class="legal-block">
+
+          <h2>8. Modification des conditions</h2>
+
+          <p>
+            Knowledge Learning se réserve le droit de modifier les présentes conditions à tout moment afin de garantir la conformité des services et l’évolution de la plateforme.
+          </p>
+
+        </section>
+
+        <section id="contact" class="legal-block">
+
+          <h2>9. Contact</h2>
+
+          <p>
+            Pour toute question concernant les présentes conditions générales, vous pouvez contacter notre équipe via la page de contact du site.
+          </p>
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- CTA -->
+  <section class="cta-section-pro">
+  <div class="cta-baner">
+
+    <div class="cta-content">
+      <h2>
+        Commencez votre apprentissage<br>
+        dès aujourd’hui
+      </h2>
+
+      <p>
+        Développez vos compétences grâce à des formations de qualité, conçues pour vous aider à progresser rapidement et efficacement.
+      </p>
+
+      <a href="inscription.html" class="cta-btn">
+        Commencer maintenant
+      </a>
+    </div>
+
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script>
+
+    async function loadLayout(){
+
+      const header =
+      await fetch("components/header.html")
+      .then(r => r.text());
+
+      document.getElementById(
+        "header"
+      ).innerHTML = header;
+
+      const footer =
+      await fetch("components/footer.html")
+      .then(r => r.text());
+
+      document.getElementById(
+        "footer"
+      ).innerHTML = footer;
+
+    }
+
+    loadLayout();
+
+  </script>
+
+</body>
+</html>

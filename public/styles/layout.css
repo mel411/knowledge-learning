@@ -1,0 +1,317 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: #f8fafc;
+  color: #0a2540;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.container-wide {
+  max-width: 1200px;
+  margin-left: 80px;
+  margin-right: auto;
+  padding: 0;
+}
+
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  padding: 16px 0;
+
+  background: #ffffff;
+  border-bottom: 1px solid #eef2f7;
+
+  transition: all ,25s ease;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 18px 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+/* LOGO */
+.logo {
+  font-weight: 1000;
+  font-size: 24px;
+  letter-spacing: 4px;
+  color: #0b1f5b;
+  text-decoration: none;
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  gap: 28px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #475569;
+  font-size: 15px;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+}
+
+.nav a:hover {
+  color: #0f172a;
+}
+
+/* HEADER RIGHT SIDE */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: auto;
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+
+/* FOOTER */
+.footer-wrapper {
+  background: #f8fafc;
+  color: white;
+  padding: 0 85px;
+  margin-top: 80px;
+}
+
+.footer {
+  width: 100%;
+  margin: 0 auto;
+  background: #0a1a4f;
+  color: white;
+  border-radius: 30px 30px 0 0;
+  padding: 85px 80px 40px;
+}
+
+/* GRID */
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+/* BOTTOM */
+.footer-bottom {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 3px;
+  margin-top: 10px;
+}
+
+/* SOCIALS */
+.socials {
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+}
+
+/* ========================= NAV DROPDOWN ========================= */
+
+.nav{
+display:flex;
+align-items:center;
+gap:28px;
+
+position: relative;
+}
+
+/* ITEM */
+
+.mega-item{
+position:static;
+}
+
+/* BUTTON */
+
+.mega-trigger{
+display:flex;
+align-items:center;
+gap:6px;
+
+background:transparent;
+border:none;
+outline:none;
+
+cursor:pointer;
+
+font-size:15px;
+font-weight:500;
+font-family:"Inter",sans-serif;
+
+color:#475569;
+
+padding:0;
+
+-webkit-appearance:none;
+appearance:none;
+
+transition:.2s ease;
+}
+
+.mega-trigger:hover{
+color:#2563eb;
+}
+
+/* ARROW */
+
+.dropdown-arrow{
+width:14px;
+height:14px;
+
+stroke:currentColor;
+stroke-width:2;
+fill:none;
+
+transition:transform .25s ease;
+}
+
+/* MENU */
+
+.mega-menu{
+position:absolute;
+top:72px;
+left: 50%;
+margin-left: 58px;
+width: 1300px;
+max-width: 1300px;
+
+transform: 
+translateX(-50%)
+translateY(10px);
+
+min-height:320px;
+
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+
+background:white;
+
+border-radius:28px;
+
+padding:28px;
+
+border:1px solid #ececec;
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.12);
+
+opacity:0;
+visibility:hidden;
+
+pointer-events:none;
+
+transition:.25s ease;
+
+z-index:999;
+}
+
+/* OPEN */
+
+.mega-item.active .mega-menu{
+opacity:1;
+visibility:visible;
+
+pointer-events:auto;
+
+transform:
+translateX(-50%)
+translateY(0);
+}
+
+/* ROTATE ARROW */
+
+.mega-item.active .dropdown-arrow{
+transform:rotate(180deg);
+}
+
+/* HEADER */
+.mega-header{
+margin-bottom:24px;
+padding-bottom:18px;
+border-bottom:1px solid #f1f1f1;
+}
+
+.mega-header h3{
+font-size:22px;
+margin-bottom:8px;
+}
+
+.mega-header p{
+font-size:15px;
+line-height:1.6;
+color:#6b7280;
+}
+
+/* GRID */
+.mega-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+
+flex:1;
+align-content:start;
+}
+
+/* LINK */
+.mega-link{
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+min-height:110px;
+gap:8px;
+padding:18px;
+border-radius:18px;
+text-decoration:none;
+transition:.2s ease;
+}
+
+.mega-link:hover{
+background:#f5f7ff;
+}
+
+.mega-link strong{
+font-size:15px;
+color:#111827;
+}
+
+.mega-link span{
+font-size:14px;
+line-height:1.6;
+color: #6b7280;
+}

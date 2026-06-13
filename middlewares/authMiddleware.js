@@ -1,7 +1,21 @@
+const { createClient } = require("@supabase/supabase-js");
 const jwt = require('jsonwebtoken');
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false
+    },
+    realtime: {
+      enabled: false
+    }
+  }
+);
 
 // Verify JWT Token
-exports.verifyToken = (req, res, next) => {
+exports.verifyToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -23,11 +37,20 @@ exports.verifyToken = (req, res, next) => {
 
     const token = parts[1];
 
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const {
+  data: { user },
+  error
+} = await supabase.auth.getUser(token);
 
-    // Attach user to request
-    req.user = decoded;
+if (error || !user) {
+
+  return res.status(401).json({
+    message: "Token invalide ou expiré"
+  });
+
+}
+
+req.user = user;
 
     next();
 

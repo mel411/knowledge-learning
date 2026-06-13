@@ -19,7 +19,8 @@ exports.getUserCertifications = async (req, res) => {
         c.user_id,
         c.cursus_id, 
         c.obtained_at,
-        cu.title AS title
+        cu.title,
+        cu.image
       FROM certifications c
       LEFT JOIN cursus cu ON c.cursus_id = cu.id
       WHERE c.user_id = $1

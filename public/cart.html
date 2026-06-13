@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Panier | Knowledge Learning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="icon" href="images/Favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+</head>
+
+<body>
+    <div id="header"></div>
+    
+    <section class="page">
+        
+        <!-- HERO -->
+        <section class="hero-secondary">
+            <div class="hero-secondary-left">
+                <h1 class="hero-secondary-title">
+                    Votre <br>
+                    <span class="highlight-bottom">panier d’apprentissage</span>
+                </h1>
+                <p class="hero-secondary-sub">
+                    Finalisez vos achats pour débloquer vos formations et commencer immédiatement.
+                </p>
+            </div>
+        </section>
+        
+        <!-- CART -->
+        <section class="cart-section">
+            <div class="cart-grid">
+                
+                <!-- LEFT -->
+                <div class="cart-left-column">
+                    <div class="cart-items-card premium-card">
+                        <div class="cart-head">
+                            <div>
+                                <p class="section-overline">
+                                    Panier
+                                </p>
+                                <h2>
+                                    Articles sélectionnés
+                                </h2>
+                            </div>
+                            
+                            <div class="cart-count-badge" id="cartCount">
+                                0 article
+                            </div>
+                        </div>
+                        
+                        <div id="cartItems"></div>
+                        
+                        <!-- EMPTY STATE -->
+
+<div 
+id="emptyCart" 
+class="empty-cart hidden"
+>
+
+<div class="empty-cart-icon">
+
+<svg 
+width="30" 
+height="30" 
+viewBox="0 0 24 24" 
+fill="none"
+>
+<path 
+d="M6 6H21L19 13H8L6 4H3" 
+stroke="currentColor" 
+stroke-width="1.8" 
+stroke-linecap="round" 
+stroke-linejoin="round"
+/>
+<circle 
+cx="9" 
+cy="19" 
+r="1.5" 
+fill="currentColor"/>
+<circle 
+cx="18" 
+cy="19" 
+r="1.5" 
+fill="currentColor"/>
+</svg>
+
+</div>
+
+<h3>
+Votre panier est vide
+</h3>
+
+<p>
+Découvrez nos formations et commencez votre apprentissage.
+</p>
+
+<a href="lesson.html" class="btn-main">
+Explorer les formations
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="cart-summary premium-card">
+
+<div class="summary-top">
+
+<p class="section-overline">
+Paiement 100% sécurisé
+</p>
+
+<h3>
+Résumé
+</h3>
+
+</div>
+
+<div class="summary-rows">
+
+<div class="summary-row">
+<span>Sous-total</span>
+<span id="subtotal">0€</span>
+</div>
+
+<div class="summary-row">
+<span>TVA</span>
+<span id="vat">0€</span>
+</div>
+
+</div>
+
+<div class="summary-divider"></div>
+
+<div class="summary-total">
+<span>Total</span>
+<span id="total">0€</span>
+</div>
+
+<div class="summary-infos">
+
+<div class="summary-info-item">
+    <ul class="contact-points">
+        <li>Accès immédiat</li>
+        <li>Paiement 100% sécurisé</li>
+        <li>Certificats inclus</li>
+      </ul>
+
+</div>
+
+<button
+id="checkoutBtn"
+class="btn-main checkout-btn"
+onclick="checkout()"
+>
+Valider la commande
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+    <section class="paths-section">
+      <h2>Une expérience d’apprentissage pensée pour progresser</h2>
+      <div class="paths-grid">
+        <div class="path-card">
+          <div class="path-icon">
+            <i class="fa-solid fa-route"></i>
+          </div>
+          <h3>Parcours guidés</h3>
+          <p>
+            Progressez étape par étape avec des formations conçues pour vous accompagner du début à la maîtrise.
+          </p>
+        </div>
+        <div class="path-card">
+          <div class="path-icon">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <h3>Apprentissage pratique</h3>
+          <p>
+            Mettez en application vos connaissances grâce à des projets concrets et stimulants.
+          </p>
+        </div>
+        <div class="path-card">
+          <div class="path-icon">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <h3>Certificats reconnus</h3>
+          <p>Valorisez vos nouvelles compétences avec des certificats utiles et reconnus.</p>
+        </div>
+      </div>
+    </section>
+  </section>
+
+<section class="cta-section-pro">
+  <div class="cta-baner">
+
+    <div class="cta-content">
+      <h2>
+        Commencez votre apprentissage<br>
+        dès aujourd’hui
+      </h2>
+
+      <p>
+        Développez vos compétences grâce à des formations de qualité, conçues pour vous aider à progresser rapidement et efficacement.
+      </p>
+
+      <a href="inscription.html" class="cta-btn">
+        Commencer maintenant
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+<script src="/auth.js"></script>
+<script src="cart.js"></script>
+
+</body>
+</html>

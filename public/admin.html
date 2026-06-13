@@ -3,224 +3,186 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Admin</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Administration — Knowledge Learning</title>
+
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
 
   <script src="/auth.js"></script>
+
   <link rel="icon" href="/images/Favicon.ico">
-  
 </head>
 
 <body>
-
+  <!-- HEADER -->
   <div id="header"></div>
-
-  <div class="hero">
-  <h2>Backoffice administrateur</h2>
-  <p>Gestion de la plateforme</p>
-  </div>
-
-<div class="container" id="adminContent">
-  <h1>Backoffice administrateur</h1>
-  <p style="text-align:center; color:#666;">
-    Gérez les utilisateurs et les achats de la plateforme
-  </p>
-
-  <button class="admin-btn" onclick="loadUsers()">Voir les utilisateurs</button>
-  <button class="admin-btn" onclick="loadPurchases()">Voir les achats</button>
-
-  <ul id="list"></ul>
-  <p id="message"></p>
-</div>
-
-<div class="container" id="accessDenied" style="display:none; text-align:center;">
-  <h2 style="color:#c0392b;">Accès refusé</h2>
-  <p style="color:#666;">Cette page est réservée aux administrateurs</p>
-
-  <button onclick="window.location.href='/'" class="admin-btn">
-    Retour à l'accueil
-  </button>
-</div>
-
-<script>
-let token = localStorage.getItem("token");
-
-// CHECK ADMIN ACCESS
-async function checkAdmin() {
-  const adminContent = document.getElementById("adminContent");
-  const denied = document.getElementById("accessDenied");
-
-  if (!token) {
-    adminContent.style.display = "none";
-    denied.style.display = "block";
-    return;
-  }
-
-  try {
-    const res = await fetch("/api/admin", {
-      headers: {
-        "Authorization": "Bearer " + token
-      }
-    });
-
-    if (!res.ok) {
-      adminContent.style.display = "none";
-      denied.style.display = "block";
-    }
-
-  } catch (error) {
-    adminContent.style.display = "none";
-    denied.style.display = "block";
-  }
-}
-
-checkAdmin();
-
-
-// LOAD USERS
-async function loadUsers() {
-  try {
-    const res = await fetch("/api/admin/users", {
-      headers: {
-        "Authorization": "Bearer " + token
-      }
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-    }
-
-    const data = await res.json();
-    console.log("Users response data:", data); // DEBUG
-
-    const list = document.getElementById("list");
-    list.innerHTML = "";
-
-    if (!Array.isArray(data)) {
-      console.error("Expected array but got:", typeof data, data);
-      list.innerHTML = "<li>Erreur: réponse inattendue du serveur</li>";
-      return;
-    }
-
-    if (data.length === 0) {
-      list.innerHTML = "<li>Aucun utilisateur trouvé</li>";
-      return;
-    }
-
-    data.forEach(user => {
-      const li = document.createElement("li");
-      li.innerText = `${user.email} (${user.role})`;
-      list.appendChild(li);
-    });
-
-  } catch (error) {
-    console.error("Erreur lors du chargement des utilisateurs:", error);
-    const list = document.getElementById("list");
-    list.innerHTML = "<li>Erreur lors du chargement des utilisateurs</li>";
-  }
-}
-
-
-// LOAD PURCHASES
-async function loadPurchases() {
-  try {
-    const res = await fetch("/api/admin/purchases", {
-      headers: {
-        "Authorization": "Bearer " + token
-      }
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-    }
-
-    const data = await res.json();
-    console.log("Purchases response data:", data); // DEBUG
-
-    const list = document.getElementById("list");
-    list.innerHTML = "";
-
-    if (!Array.isArray(data)) {
-      console.error("Expected array but got:", typeof data, data);
-      list.innerHTML = "<li>Erreur: réponse inattendue du serveur</li>";
-      return;
-    }
-
-    if (data.length === 0) {
-      list.innerHTML = "<li>Aucune donnée disponible</li>";
-      return;
-    }
-
-    data.forEach(p => {
-      const li = document.createElement("li");
-
-      // SMART DISPLAY
-      if (p.cursus_title) {
-        li.innerText = `${p.email} a acheté le cursus "${p.cursus_title}"`;
-      } else if (p.lesson_title) {
-        li.innerText = `${p.email} a acheté la leçon "${p.lesson_title}"`;
-      } else {
-        li.innerText = `${p.email} (achat inconnu)`;
-      }
-
-      list.appendChild(li);
-    });
-
-  } catch (error) {
-    console.error("Erreur lors du chargement des achats:", error);
-    const list = document.getElementById("list");
-    list.innerHTML = "<li>Erreur lors du chargement des achats</li>";
-  }
-}
-
-function updateUserUI() {
-  const userInfo = document.getElementById("userInfo");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if (!userInfo || !logoutBtn) return;
-
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    userInfo.textContent = "Invité";
-    logoutBtn.style.display = "none";
-    return;
-  }
-
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    let email = payload.email || localStorage.getItem("userEmail");
-
-    userInfo.textContent = email || "";
-    logoutBtn.style.display = "inline-block";
-
-  } catch (e) {
-    userInfo.textContent = "Invité";
-    logoutBtn.style.display = "none";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  fetch('/header.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header').innerHTML = data;
-      updateUserUI();
-    })
-    .catch(err => console.error("Header error:", err));
-});
-
-</script>
-
-<div id="footer"></div>
-
-<script>
-fetch('/footer.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('footer').innerHTML = data;
-  });
-</script>
-
+  
+  <section class="page">
+    <!-- HERO -->
+    <div class="hero-secondary">
+      <div class="hero-secondary-left">
+        <h1 class="hero-secondary-title">
+          Tableau de bord
+          <br>
+          <span class="highlight-bottom">
+            administrateur
+          </span>
+        </h1>
+        <p class="hero-secondary-sub">
+          Gérez les utilisateurs, les achats, les certificats,
+          les validations et l’ensemble des données de la plateforme
+          depuis un espace sécurisé et centralisé.
+        </p>
+      </div>
+    </div>
+    <!-- ACCESS DENIED -->
+    <div
+      class="admin-denied-card"
+      id="accessDenied"
+      style="display:none;"
+    >
+    <h2>Accès refusé</h2>
+    <p>
+      Cette page est réservée aux administrateurs autorisés.
+    </p>
+      <button
+        onclick="window.location.href='/'"
+        class="btn-main"
+        >
+        Retour à l’accueil
+      </button>
+    </div>
+    
+    <!-- ADMIN CONTENT -->
+    <div id="adminContent">
+      <div class="admin-wrapper">
+        <!-- STATS -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <h3 id="usersCount">0</h3>
+            <p>Utilisateurs</p>
+          </div>
+          <div class="admin-stat-card">
+            <h3 id="purchasesCount">0</h3>
+            <p>Achats</p>
+          </div>
+          <div class="admin-stat-card">
+            <h3 id="certificationsCount">0</h3>
+            <p>Certificats</p>
+          </div>
+          <div class="admin-stat-card">
+            <h3 id="validationsCount">0</h3>
+            <p>Validations</p>
+          </div>
+        </div>
+        
+        <!-- USERS -->
+        <section class="admin-section">
+          <div class="section-heading">
+            <h2>Utilisateurs</h2>
+            <p>
+              Gérez les comptes, les accès et les rôles.
+            </p>
+            <input
+            type="text"
+            id="usersSearch"
+            class="admin-search"
+            placeholder="Rechercher un utilisateur..."
+            oninput="filterUsers()"
+            />
+          </div>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Email</th>
+                  <th>Rôle</th>
+                  <th>Créé le</th>
+                </tr>
+              </thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </section>
+        
+        <!-- PURCHASES -->
+        <section class="admin-section">
+          <div class="section-heading">
+            <h2>Achats</h2>
+            <p>
+              Consultez tous les achats effectués sur la plateforme.
+            </p>
+          </div>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>Produit</th>
+                  <th>Prix</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="purchasesTable"></tbody>
+            </table>
+          </div>
+        </section>
+        
+        <!-- CERTIFICATIONS -->
+        <section class="admin-section">
+          <div class="section-heading">
+            <h2>Certificats</h2>
+            <p>
+              Consultez les certificats obtenus par les utilisateurs.
+            </p>
+          </div>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>Formation</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="certificationsTable"></tbody>
+            </table>
+          </div>
+        </section>
+        
+        <!-- VALIDATIONS -->
+        <section class="admin-section">
+          <div class="section-heading">
+            <h2>Validations</h2>
+            <p>
+              Suivi des validations et progression des leçons.
+            </p>
+          </div>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>Leçon</th>
+                  <th>Validé le</th>
+                </tr>
+              </thead>
+              <tbody id="validationsTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FOOTER -->
+  <div id="footer"></div>
+  <script src="/admin.js"></script>
 </body>
 </html>

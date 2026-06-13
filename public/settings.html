@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Paramètres — Knowledge Learning</title>
+
+<link rel="stylesheet" href="styles/layout.css">
+<link rel="stylesheet" href="styles/components.css">
+<link rel="stylesheet" href="styles/pages.css">
+
+</head>
+
+<body>
+    <!-- HEADER -->
+    <div id="header"></div>
+    <section class="page">
+        <div class="hero-secondary">
+            <div class="hero-secondary-left">
+                <h1 class="hero-secondary-title">
+                    Gérez votre
+                    <br>
+                    <span class="highlight-bottom">
+                        espace personnel
+                    </span>
+                </h1>
+                <p class="hero-secondary-sub">
+                    Modifiez vos informations, sécurisez votre compte et personnalisez
+                    votre expérience d’apprentissage en toute simplicité.
+                </p>
+            </div>
+        </div>
+        
+        <div class="welcome-card">
+            <div class="welcome-left">
+                <div class="welcome-avatar" id="welcomeAvatar"></div>
+            <div>
+                <h2 id="heroName">
+                    Bienvenue
+                </h2>
+                <p id="heroEmail">
+                    Chargement...
+                </p>
+            </div>
+        </div>
+        <div class="welcome-badge">
+            Compte actif
+        </div>
+    </div>
+        <div class="settings-layout">
+
+<aside class="settings-sidebar">
+
+<button class="settings-tab"
+onclick="scrollToSection('profileSection', event)">
+Profil
+</button>
+
+<button class="settings-tab"
+onclick="scrollToSection('securitySection', event)">
+Sécurité
+</button>
+
+<button class="settings-tab danger-tab"
+onclick="scrollToSection('deleteSection', event)">
+Suppression
+</button>
+
+</aside>
+
+<div class="settings-content">
+    
+        <!-- ACCOUNT -->
+     <div class="settings-card" id="ProfileSection"> 
+        <h2>Informations personnelles</h2>
+
+  <div class="info-row">
+    <span>Nom</span>
+    <strong id="displayName">—</strong>
+  </div>
+
+  <div class="info-row">
+    <span>Email</span>
+    <strong id="displayEmail">—</strong>
+  </div>
+
+  <div class="info-row">
+    <span>Rôle</span>
+    <strong id="displayRole">—</strong>
+  </div>
+
+</div>
+
+  <!-- SECURITY -->
+  <div class="settings-card" id="securitySection">
+
+  <h2>Sécurité du compte</h2>
+
+  <div class="settings-group">
+    <label>Mot de passe actuel</label>
+    <input id="currentPassword" type="password">
+  </div>
+
+  <div class="settings-group">
+    <label>Nouveau mot de passe</label>
+    <input id="newPassword" type="password">
+  </div>
+
+  <div class="settings-group">
+    <label>Confirmer le mot de passe</label>
+    <input id="confirmPassword" type="password">
+  </div>
+
+  <button class="btn-main" onclick="updatePassword()">
+    Mettre à jour le mot de passe
+  </button>
+
+</div>
+
+  <!-- DANGER -->
+  <div class="settings-card danger" id="deleteSection">
+
+  <h2>Suppression du compte</h2>
+
+  <p class="settings-desc">
+    Cette action est irréversible. Toutes vos données seront supprimées définitivement.
+  </p>
+
+  <div class="danger-actions">
+
+  <input
+    id="deletePassword"
+    type="password"
+    class="danger-input"
+    placeholder="Confirmez votre mot de passe"
+  >
+
+  <button
+    class="btn-danger"
+    onclick="deleteAccount()"
+  >
+    Supprimer mon compte
+  </button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+<script src="/auth.js"></script>
+
+<script>
+document.addEventListener(
+"DOMContentLoaded",
+loadLayout
+);
+</script>
+
+<script src="/settings.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadLayout();    
+  await loadUserInfo();  
+});
+</script>
+
+</body>
+</html>

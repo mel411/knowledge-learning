@@ -3,112 +3,160 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Certifications</title>
-  <link rel="stylesheet" href="styles.css">
-
+  <title>Certificats</title>
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
   <script src="/auth.js"></script>
   <link rel="icon" href="/images/Favicon.ico">
-  
 </head>
 
 <body>
+  <div id="header"></div>
 
-<div id="header"></div>
+  <!-- PAGE -->
+  <section class="page">
 
-  <div class="hero">
-  <h2>Vos certifications</h2>
-  <p>Suivez vos réussites</p>
-  </div>
+    <!-- HERO -->
+    <div class="hero-secondary">
 
-<div class="container">
+      <!-- LEFT -->
+      <div class="hero-secondary-left">
+        <h1 class="hero-secondary-title">
+          Vos certificats
+          <br>
+          <span class="highlight-bottom">valorisez vos compétences</span>
+        </h1>
+        <p class="hero-secondary-sub">
+          Téléchargez, partagez et mettez en avant vos certificats obtenus après validation de vos formations.
+        </p>
+      </div>
+    </div>
 
-  <ul id="certList"></ul>
-
-</div>
-
-<script>
-let token = localStorage.getItem("token") || "";
-
-// LOAD CERTIFICATIONS
-async function loadCertifications() {
-  const res = await fetch("/api/certifications", {
-    headers: {
-      "Authorization": "Bearer " + token
-    }
-  });
-
-  const data = await res.json();
-  console.log("Certifications data:", data); // DEBUG: Check response structure
+    <!-- CERTIFICATIONS -->
+    <div class="container cert-container">
+      <div id="certList" class="cert-grid"></div>
+    </div>
+  </section>
   
-  const container = document.getElementById("certList");
-  container.innerHTML = "";
+  <section class="cta-section-pro">
+    <div class="cta-baner">
+      <div class="cta-content">
+        <h2>
+          Commencez votre apprentissage<br>
+          dès aujourd’hui
+        </h2>
+        <p>
+          Développez vos compétences grâce à des formations de qualité, conçues pour vous aider à progresser rapidement et efficacement.
+        </p>
+        <a href="inscription.html" class="cta-btn">
+          Commencer maintenant
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <div id="footer"></div>
+  
+  <script>
+  let token = "";
+  async function getToken(){
+    const {
+      data: { session }
+    } = await window.sb.auth.getSession();
+    if(!session){
+      window.location.href = "/connexion.html";
+      return null;
+    }
+  return session.access_token;
+}
 
-  if (!Array.isArray(data)) {
-    console.error("Expected array but got:", typeof data, data);
-    container.innerHTML = "<p>Erreur: réponse inattendue du serveur.</p>";
-    return;
+  // LOAD CERTIFICATIONS
+  async function loadCertifications() {
+    try {
+      token = await getToken();
+      if(!token) return;
+      const {
+data,
+error
+}
+=
+await window.sb
+.from("certifications")
+.select(`
+id,
+obtained_at,
+cursus:cursus_id (
+title,
+image
+)
+`)
+.eq("user_id", (
+await window.sb.auth.getUser()
+).data.user.id);
+
+if(error){
+console.error(error);
+container.innerHTML = "<p>Erreur serveur.</p>";
+return;
+}
+      console.log("Certifications data:", data);
+      const container = document.getElementById("certList");
+      container.innerHTML = "";
+      if (!Array.isArray(data)) {
+        container.innerHTML = "<p>Erreur serveur.</p>";
+        return;
+      }
+      if (data.length === 0) {
+        container.innerHTML = "<p>Aucun certificat obtenu pour le moment.</p>";
+        return;
+      }
+      data.forEach(cert => {
+        container.innerHTML += `
+        <div class="cert-card">
+          <div class="cert-image">
+            <img src="/images/${cert.cursus?.image}" alt="${cert.cursus?.title}">
+            </div>
+            <div class="cert-content">
+              <div class="cert-badge">
+                ✔ Certifié
+              </div>
+              <h3 class="cert-title">${cert.cursus?.title || "Formation"}</h3>
+              <p class="cert-date">
+                ${cert.obtained_at 
+                ? "Certifié le " + new Date(cert.obtained_at).toLocaleDateString('fr-FR', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric'
+                })
+                : ""}
+              </p>
+              <button class="btn-lesson" onclick="viewCert('${cert.id}')">
+                Voir le certificat
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
-
-  if (data.length === 0) {
-    container.innerHTML = "<p>Aucune certification obtenue pour le moment.</p>";
-    return;
+  function downloadCert(id) {
+    window.open(`/api/certifications/${id}/download`, "_blank");
   }
-
-  data.forEach(cert => {
-    container.innerHTML += `
-      <li class="cert-card">
-        <h3>${cert.title}</h3>
-        <p>Certification obtenue ✅</p>
-      </li>
-    `;
+  function viewCert(id) {
+    window.location.href = `/certificate.html?id=${id}`;
+  }
+  
+  loadCertifications();
+  document.addEventListener("DOMContentLoaded", () => {
+    loadLayout();
   });
-}
 
-loadCertifications();
-
-function updateUserUI() {
-  const userInfo = document.getElementById("userInfo");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if (!userInfo || !logoutBtn) return;
-
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    userInfo.textContent = "Invité";
-    logoutBtn.style.display = "none";
-    return;
-  }
-
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    let email = payload.email || localStorage.getItem("userEmail");
-
-    userInfo.textContent = email || "";
-    logoutBtn.style.display = "inline-block";
-
-  } catch (e) {
-    userInfo.textContent = "Invité";
-    logoutBtn.style.display = "none";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  fetch('/header.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header').innerHTML = data;
-      updateUserUI();
-    })
-    .catch(err => console.error("Header error:", err));
-});
-
-</script>
-
-<div id="footer"></div>
-
-<script>
-fetch('/footer.html')
+  // footer
+  fetch('components/footer.html')
   .then(res => res.text())
   .then(data => {
     document.getElementById('footer').innerHTML = data;

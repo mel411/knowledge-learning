@@ -13,6 +13,8 @@ const certificationRoutes = require('./routes/certificationRoutes');
 const cursusRoutes = require('./routes/cursusRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const lessonRoutes = require('./routes/lessonRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes');
 
 const { verifyToken, isAdmin } = require('./middlewares/authMiddleware');
 
@@ -38,6 +40,8 @@ app.use('/api/access', accessRoutes);
 app.use('/api/validation', validationRoutes);
 app.use('/api/cursus', cursusRoutes);
 app.use('/api/certifications', certificationRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/lessons', lessonRoutes);
 

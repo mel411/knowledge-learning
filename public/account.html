@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Mon Compte — Knowledge Learning</title>
+
+<link rel="stylesheet" href="styles/layout.css">
+<link rel="stylesheet" href="styles/components.css">
+<link rel="stylesheet" href="styles/pages.css">
+
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header"></div>
+
+<section class="page">
+
+<!-- ========================= HERO ========================= -->
+
+<div class="hero-secondary">
+
+<div class="hero-secondary-left">
+
+<h1 class="hero-secondary-title">
+Bienvenue dans
+<br>
+<span class="highlight-bottom">
+votre espace d’apprentissage
+</span>
+</h1>
+
+<p class="hero-secondary-sub">
+Suivez votre progression, accédez à vos formations,
+retrouvez vos certificats et gérez votre compte
+depuis un espace centralisé.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<div class="account-wrapper">
+    <div class="account-container">
+
+        <div class="section-heading">
+  <h2>Votre activité</h2>
+  <p>Un aperçu clair de votre progression.</p>
+</div>
+<!-- ========================= STATS ========================= -->
+
+<section class="account-section">
+
+    <div class="paths-grid">
+
+        <!-- FORMATIONS -->
+        <div class="path-card stat-adapted">
+
+  <div class="stat-icon">
+    <svg viewBox="0 0 24 24">
+      <path d="M3 6l9-4 9 4-9 4-9-4z"></path>
+      <path d="M3 10l9 4 9-4"></path>
+      <path d="M3 14l9 4 9-4"></path>
+    </svg>
+  </div>
+
+  <h2 class="stat-main" id="activeCoursesCount">0</h2>
+
+  <h3>Formations suivies</h3>
+
+  <p>Accédez à toutes vos formations disponibles à vie.</p>
+
+</div>
+
+    <!-- CERTIFICATS -->
+    <div class="path-card stat-adapted">
+
+  <div class="stat-icon">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 3l9 4-9 4-9-4 9-4z"></path>
+      <path d="M6 10v4a6 6 0 0 0 12 0v-4"></path>
+    </svg>
+  </div>
+
+  <h2 class="stat-main" id="certificateCount">0</h2>
+
+  <h3>Certificats obtenus</h3>
+
+  <p>Consultez et valorisez vos certificats obtenus.</p>
+
+</div>
+
+    <!-- ACTIVITÉ -->
+    <div class="path-card stat-adapted">
+
+  <div class="stat-icon">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 6v6l4 2"></path>
+      <circle cx="12" cy="12" r="10"></circle>
+    </svg>
+  </div>
+
+  <h2 class="stat-main" id="lastActivityCount"></h2>
+
+  <h3>Activité récente</h3>
+
+  <p id="lastActivityLabel">Dernière connexion</p>
+
+</div>
+
+  </div>
+
+</section>
+
+<!-- ========================= MY COURSES ========================= -->
+
+<section class="account-section">
+
+<div class="section-heading">
+<h2>Mes formations</h2>
+<p>
+Accédez à vos formations en cours ou explorez vos formations débloquées.
+</p>
+</div>
+
+<div id="userCourses" class="account-lessons-grid">
+</div>
+
+</section>
+
+<!-- ========================= CERTIFICATIONS ========================= -->
+
+<section class="account-section">
+
+<div class="section-heading">
+<h2>Mes certificats</h2>
+<p>
+Retrouvez vos certificats validés et téléchargeables.
+</p>
+</div>
+
+<div id="certificatesArea" class="cert-grid"></div>
+
+</section>
+
+<!-- ========================= PURCHASE HISTORY ========================= -->
+
+<section class="account-section">
+
+<div class="section-heading">
+<h2>Historique d’achats</h2>
+<p>
+Toutes vos commandes et accès premium.
+</p>
+</div>
+
+<div class="orders-table">
+
+<div id="ordersRows"></div>
+</div>
+
+</section>
+
+</div>
+</div>
+
+<section class="page">
+
+<!-- ========================= ACCOUNT SETTINGS ========================= -->
+<div class="account-dashboard-grid">
+
+  <!-- SETTINGS MAIN CARD -->
+  <a href="/settings.html" class="account-main-card">
+
+    <div class="account-main-icon">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </div>
+
+    <div class="account-main-content">
+      <h3>Paramètres du compte</h3>
+
+      <p>
+        Gérez votre profil, votre sécurité,
+        votre mot de passe et vos préférences.
+      </p>
+
+      <span class="account-main-link">
+        Ouvrir les paramètres →
+      </span>
+    </div>
+
+  </a>
+
+  <!-- ADMIN ACCESS -->
+
+  <a
+    href="/admin.html"
+    id="adminSection"
+    class="account-main-card"
+    onclick="openAdminPanel(event)"
+  >
+
+    <div class="account-main-icon">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2l2.2 4.7 5.1.7-3.7 3.6.9 5-4.5-2.5-4.5 2.5.9-5-3.7-3.6 5.1-.7z"></path>
+      </svg>
+
+    </div>
+
+    <div class="account-main-content">
+
+      <h3>Espace administrateur</h3>
+
+      <p>
+        Accédez au panneau de gestion de la plateforme.
+        Réservé uniquement aux administrateurs autorisés.
+      </p>
+
+      <span class="account-main-link">
+        Accéder au panneau →
+      </span>
+
+    </div>
+
+  </a>
+
+  <!-- LOGOUT -->
+<div class="account-actions">
+
+  <button class="logout-btn" onclick="logout(event)">
+    Déconnexion
+  </button>
+
+</div>
+
+</section>
+</section>
+
+<!-- FOOTER -->
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+<script src="/auth.js"></script>
+<script src="/account.js"></script>
+
+<script>
+document.addEventListener(
+"DOMContentLoaded",
+loadLayout
+);
+</script>
+
+</body>
+</html>

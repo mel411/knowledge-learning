@@ -14,7 +14,7 @@ exports.simulatePayment = async (req, res) => {
     // Validation
     if (!type || (!lesson_id && !cursus_id)) {
       return res.status(400).json({
-        message: "Donnees requises manquantes"
+        message: "Données requises manquantes"
       });
     }
 
@@ -46,7 +46,7 @@ exports.simulatePayment = async (req, res) => {
 
       if (existing.rows.length > 0) {
         return res.status(400).json({
-          message: "Cursus déjà acheté"
+          message: "Formation déjà achetée"
         });
       }
 
@@ -57,7 +57,7 @@ exports.simulatePayment = async (req, res) => {
       );
 
       return res.json({
-        message: "Cursus acheté avec succès✅"
+        message: "Formation termineé avec succès✅"
       });
     }
 

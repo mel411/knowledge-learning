@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Support — Knowledge Learning
+  </title>
+
+  <!-- FONTS -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- STYLES -->
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+
+  <script src="/auth.js"></script>
+
+  <link
+    rel="icon"
+    href="/images/Favicon.ico"
+  >
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header"></div>
+
+<section class="page">
+
+  <!-- HERO -->
+  <section class="contact-hero-pro">
+
+  <div class="contact-label">
+  Centre d'aide
+</div>
+
+<h1>
+  Nous sommes là<br>
+  pour vous aider
+</h1>
+
+<p class="contact-intro">
+  Notre équipe vous accompagne pour toutes les questions liées à votre apprentissage.
+</p>
+
+<div class="contact-buttons">
+    <a
+      href="/contact.html"
+      class="btn-main"
+    >
+      Contacter le support
+    </a>
+
+    <a
+      href="/index.html#faq"
+      class="btn-outline"
+    >
+      Voir la FAQ
+    </a>
+
+  </div>
+
+</section>
+
+  <!-- SUPPORT CARDS -->
+<section class="paths-section-support">
+
+  <h2>
+    Une assistance pensée pour vous accompagner
+  </h2>
+
+  <div class="paths-grid">
+
+    <div class="path-card-support">
+
+      <div class="path-icon">
+        <i class="fa-regular fa-user"></i>
+      </div>
+
+      <h3>
+        Compte
+      </h3>
+
+      <p>
+        Connexion, sécurité et gestion du compte.
+      </p>
+
+    </div>
+
+    <div class="path-card-support">
+
+      <div class="path-icon">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+
+      <h3>
+        Formations
+      </h3>
+
+      <p>
+        Accès aux cours et progression des leçons.
+      </p>
+
+    </div>
+
+    <div class="path-card-support">
+
+      <div class="path-icon">
+        <i class="fa-regular fa-square-check"></i>
+      </div>
+
+      <h3>
+        Certificats
+      </h3>
+
+      <p>
+        Validation et téléchargement des certificats.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="faq-section">
+    <div class="faq-container">
+
+    <div class="faq-header">
+      <h2>Questions fréquentes</h2>
+      <p>Tout ce que vous devez savoir avant de commencer</p>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Comment fonctionne la plateforme ?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Vous accédez à des formations en ligne structurés et progressez à votre rythme avec des contenus adaptés.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Combien de temps faut-il pour terminer une formation ?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          <p>La durée dépend de la formation choisie, mais la plupart peuvent être complétées en quelques semaines. Vous pouvez revenir sur les leçons à tout moment.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Les certificats sont-ils reconnus ?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Nos certificats valident vos compétences et peuvent être valorisés dans votre parcours professionnel.</p>
+        </div>
+      </div>
+
+    </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="support-contact-modern">
+
+  <div class="support-modern-container">
+
+    <!-- LEFT -->
+    <div class="support-modern-left">
+
+      <span class="support-modern-tag">
+        Assistance dédiée
+      </span>
+
+      <h2>
+        Besoin d'aide?
+      </h2>
+
+      <p class="support-modern-desc">
+            Notre équipe vous accompagne pour toute question concernant vos formations, votre compte ou vos certificats.
+        </p>
+
+      <div class="support-modern-points">
+
+        <div class="support-point">
+          <div class="support-point-icon">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+
+          <div>
+            <strong>Réponse rapide</strong>
+            <p>Temps moyen inférieur à 24 heures.</p>
+          </div>
+        </div>
+
+        <div class="support-point">
+          <div class="support-point-icon">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+
+          <div>
+            <strong>Support personnalisé</strong>
+            <p>Une assistance adaptée à votre demande.</p>
+          </div>
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="support-modern-right">
+
+      <form 
+      id="supportForm"
+      class="support-modern-form"
+      >
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label>Prénom</label>
+            <input 
+            id="supportPrenom"
+            type="text" 
+            placeholder="Votre prénom"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Nom</label>
+            <input 
+            id="supportName"
+            type="text" placeholder="Votre nom">
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input 
+          id="supportEmail"
+          type="email" placeholder="Votre adresse email">
+        </div>
+
+        <div class="form-group">
+          <label>Sujet</label>
+
+          <select id="supportSubject">
+            <option>Compte</option>
+            <option>Formation</option>
+            <option>Certification</option>
+            <option>Paiement</option>
+            <option>Autre</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Message</label>
+
+          <textarea 
+          id="supportMessage"
+          placeholder="Décrivez votre demande..."></textarea>
+        </div>
+
+        <button class="btn-main support-submit">
+          Envoyer la demande
+        </button>
+        <p
+id="supportInfo"
+style="
+margin-top:15px;
+font-size:14px;
+">
+</p>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+</section>
+
+<section class="cta-section-pro">
+  <div class="cta-baner">
+
+    <div class="cta-content">
+      <h2>
+        Commencez votre apprentissage<br>
+        dès aujourd’hui
+      </h2>
+
+      <p>
+        Développez vos compétences grâce à des formations de qualité, conçues pour vous aider à progresser rapidement et efficacement.
+      </p>
+
+      <a href="inscription.html" class="cta-btn">
+        Commencer maintenant
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer"></div>
+
+<script>
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    loadLayout();
+
+  }
+);
+
+/* ========================================================= SUPPORT FORM ========================================================= */
+
+document
+.getElementById("supportForm")
+.addEventListener(
+"submit",
+
+async(e)=>{
+
+e.preventDefault();
+
+const button=
+document.querySelector(
+".support-submit"
+);
+
+const info=
+document.getElementById(
+"supportInfo"
+);
+
+button.disabled=true;
+
+button.innerText=
+"Envoi en cours...";
+
+const data={
+
+prenom:
+document
+.getElementById(
+"supportPrenom"
+)
+.value
+.trim(),
+
+nom:
+document
+.getElementById(
+"supportName"
+)
+.value
+.trim(),
+
+email:
+document
+.getElementById(
+"supportEmail"
+)
+.value
+.trim(),
+
+sujet:
+document
+.getElementById(
+"supportSubject"
+)
+.value,
+
+message:
+document
+.getElementById(
+"supportMessage"
+)
+.value
+.trim()
+
+};
+
+if(
+
+!data.prenom ||
+
+!data.nom ||
+
+!data.email ||
+
+!data.message
+
+){
+
+info.innerText=
+"Veuillez remplir tous les champs";
+
+info.style.color=
+"red";
+
+button.disabled=false;
+
+button.innerText=
+"Envoyer la demande";
+
+return;
+
+}
+
+try{
+
+const res=
+await fetch(
+"/api/contact",
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+JSON.stringify(data)
+
+}
+
+);
+
+const result=
+await res.json();
+
+info.innerText=
+result.message;
+
+info.style.color=
+res.ok
+?
+"#2e7d32"
+:
+"red";
+
+if(res.ok){
+
+document
+.getElementById(
+"supportForm"
+)
+.reset();
+
+}
+
+}catch{
+
+info.innerText=
+"Erreur serveur";
+
+info.style.color=
+"red";
+
+}
+
+button.disabled=false;
+
+button.innerText=
+"Envoyer la demande";
+
+}
+
+);
+
+</script>
+
+<script>
+document.querySelectorAll(".faq-question").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector("span");
+
+    const isOpen = answer.style.maxHeight;
+
+    document.querySelectorAll(".faq-answer").forEach(a => a.style.maxHeight = null);
+    document.querySelectorAll(".faq-question span").forEach(i => i.style.transform = "rotate(0)");
+
+    if (!isOpen) {
+      answer.style.maxHeight = answer.scrollHeight + "px";
+      icon.style.transform = "rotate(45deg)";
+    }
+  });
+});
+</script>
+
+</body>
+</html>

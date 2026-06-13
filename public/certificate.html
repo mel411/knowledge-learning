@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+        
+        <title>Certificat — Knowledge Learning</title>
+        
+        <link rel="stylesheet" href="styles/layout.css">
+        <link rel="stylesheet" href="styles/components.css">
+        <link rel="stylesheet" href="styles/pages.css">
+        
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="/auth.js"></script>
+        
+        <link rel="icon" href="/images/Favicon.ico">
+
+    </head>
+    
+    <body>
+        
+        <div id="header"></div>
+    
+        <section class="certificat-page">
+        
+            <div class="certificat-card">
+                <div class="certificat-top">
+                    <div class="certificat-logo">
+                        KNOWLEDGE LEARNING
+                    </div>
+                    <div class="certificat-badge">
+                        Certificat officiel
+                    </div>
+                </div>
+
+                <h1>
+                    Certificat de réussite
+                </h1>
+
+                <p class="certificat-sub">
+                    Ce document certifie que
+                </p>
+
+                <h2 id="studentName">
+                    Chargement...
+                </h2>
+
+                <p class="certificat-text">
+                    a complété avec succès le programme de formation suivant :
+                </p>
+
+                <h3 id="courseName">
+                    Chargement...
+                </h3>
+
+                <p
+                class="course-description"
+                id="courseDescription"
+                >
+                    Chargement...
+                </p>
+
+                <div class="certificat-lessons">
+                    <h4>
+                        Modules complétés
+                    </h4>
+                    <ul id="lessonList">
+
+                    </ul>
+                </div>
+
+                <div class="certificat-details">
+                    <div>
+                        <strong>Modules</strong>
+                        <p id="lessonCount">
+                            0
+                        </p>
+                    </div>
+                    <div>
+                        <strong>Niveau</strong>
+                        <p>
+                            Débutant
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <strong>Statut</strong>
+                        <p>
+                            Validé
+                        </p>
+                    </div>
+                </div>
+
+                <p class="certificat-date">
+                    Délivré le
+                    <span id="certDate"></span>
+                </p>
+
+                <div class="certificat-bottom">
+
+                    <div>
+                        <strong>ID Formation :</strong>
+                        <span id="certId"></span>
+                    </div>
+
+                    <div class="signature-box">
+
+                        <strong>Signature</strong>
+
+                        <img 
+                        src="/images/signature.png" 
+                        class="signature-img"
+                        >
+                        
+                    </div>
+
+                </div>
+
+                <div style="margin-top:60px">
+                    <button class="btn-main" onclick="window.print()">
+                        Télécharger le certificat
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+        
+        <div id="footer"></div>
+        
+        <script>
+        
+        document.addEventListener(
+        "DOMContentLoaded",
+        ()=>{loadLayout()
+
+        }
+    )
+    
+    async function loadCertificate(){
+        
+        const params=
+        new URLSearchParams(
+            window.location.search
+        );
+        
+        const id=
+        params.get("id");
+        
+        if(!id)return;
+        
+        const {
+            
+            data,
+            error
+        }
+        =
+        await window.sb
+        .from(
+            "certifications"
+        )
+        .select(`
+        
+        id,
+        obtained_at,
+        cursus:cursus_id(
+        id,
+        title
+        )
+        `)
+        .eq(
+            "id",
+            id
+        )
+        .single();
+        
+        if(error){
+            
+            console.log(error);
+            
+            return;
+        
+        }
+        
+        /* USER */
+        
+        const user =
+        await window.sb
+        .auth
+        .getUser();
+        
+        let fullName =
+        user.data.user?.user_metadata?.full_name ||
+        user.data.user?.user_metadata?.name ||
+        user.data.user?.user_metadata?.display_name ||
+        "Étudiant";
+
+document
+.getElementById(
+"studentName"
+)
+.innerText =
+fullName;
+
+console.log(
+user.data.user.user_metadata
+);
+
+
+/* COURSE TITLE */
+
+document
+.getElementById(
+"courseName"
+)
+.innerText=
+data.cursus.title;
+
+
+/* DESCRIPTION */
+
+const descriptions={
+
+"Initiation à la guitare":
+"Programme d’apprentissage dédié aux bases essentielles de la guitare, aux accords fondamentaux et aux premières techniques musicales.",
+
+"Initiation au piano":
+"Formation conçue pour découvrir les fondamentaux du piano et développer les premières compétences pratiques.",
+
+"Développement web":
+"Introduction aux technologies essentielles du développement moderne : HTML, CSS et Javascript.",
+
+"Initiation au jardinage":
+"Apprentissage des bases du jardinage, des outils indispensables et des bonnes pratiques.",
+
+"Initiation à la cuisine":
+"Découverte des techniques culinaires essentielles et des bases de préparation.",
+
+"Art du dressage culinaire":
+"Formation dédiée aux principes visuels et artistiques du dressage gastronomique."
+
+};
+
+document
+.getElementById(
+"courseDescription"
+)
+.innerText=
+descriptions[
+data.cursus.title
+] || "";
+
+
+/* LESSONS */
+
+const lessons=
+await window.sb
+.from(
+"lessons"
+)
+.select(
+"title"
+)
+.eq(
+"cursus_id",
+data.cursus.id
+);
+
+const lessonList=
+document.getElementById(
+"lessonList"
+);
+
+lessonList.innerHTML="";
+
+lessons.data.forEach(
+lesson=>{
+
+lessonList.innerHTML+=`
+
+<li>
+
+✓ ${lesson.title}
+
+</li>
+
+`;
+
+}
+
+);
+
+/* count */
+
+document
+.getElementById(
+"lessonCount"
+)
+.innerText=
+lessons.data.length;
+
+
+/* date */
+
+document
+.getElementById(
+"certDate"
+)
+.innerText=
+new Date(
+data.obtained_at
+)
+.toLocaleDateString(
+"fr-FR"
+);
+
+
+/* cursus id */
+
+document
+.getElementById(
+"certId"
+)
+.innerText=
+"CERT-"+data.id;
+
+}
+
+loadCertificate()
+
+</script>
+
+</body>
+</html>

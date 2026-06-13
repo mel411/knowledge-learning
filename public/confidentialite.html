@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Politique de Confidentialité | Knowledge Learning</title>
+
+  <meta
+    name="description"
+    content="Consultez la politique de confidentialité de Knowledge Learning et découvrez comment vos données sont protégées."
+  />
+
+  <link rel="icon" href="images/Favicon.ico">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div id="header"></div>
+
+  <main class="legal-page">
+
+    <!-- HERO -->
+    <section class="legal-hero">
+
+      <div class="legal-label">
+        Protection des données
+      </div>
+
+      <h1>
+        Politique de confidentialité
+      </h1>
+
+      <p class="legal-intro">
+        Knowledge Learning accorde une importance particulière à la confidentialité et à la protection des données personnelles de ses utilisateurs.
+      </p>
+
+    </section>
+
+    <!-- CONTENT -->
+    <section class="legal-wrapper">
+
+      <!-- SIDEBAR -->
+      <aside class="legal-sidebar">
+
+        <div class="legal-sidebar-card">
+
+          <p class="legal-sidebar-title">
+            Navigation
+          </p>
+
+          <a href="#collecte">Collecte des données</a>
+          <a href="#utilisation">Utilisation</a>
+          <a href="#protection">Protection</a>
+          <a href="#cookies">Cookies</a>
+          <a href="#droits">Droits des utilisateurs</a>
+          <a href="#conservation">Conservation</a>
+          <a href="#tiers">Services tiers</a>
+          <a href="#modification">Modification</a>
+          <a href="#contact">Contact</a>
+
+        </div>
+
+      </aside>
+
+      <!-- MAIN -->
+      <div class="legal-content">
+
+        <section id="collecte" class="legal-block">
+
+          <h2>1. Collecte des données</h2>
+
+          <p>
+            Certaines informations personnelles peuvent être collectées lors de l’utilisation de la plateforme, notamment lors de la création d’un compte, d’un achat ou d’une prise de contact.
+          </p>
+
+        </section>
+
+        <section id="utilisation" class="legal-block">
+
+          <h2>2. Utilisation des données</h2>
+
+          <p>
+            Les données collectées permettent d’assurer le bon fonctionnement des services, l’accès aux formations, la gestion du compte utilisateur et l’amélioration de l’expérience proposée.
+          </p>
+
+        </section>
+
+        <section id="protection" class="legal-block">
+
+          <h2>3. Protection des informations</h2>
+
+          <p>
+            Knowledge Learning met en œuvre des mesures techniques et organisationnelles destinées à protéger les données personnelles contre tout accès non autorisé, perte ou divulgation.
+          </p>
+
+        </section>
+
+        <section id="cookies" class="legal-block">
+
+          <h2>4. Cookies</h2>
+
+          <p>
+            La plateforme peut utiliser des cookies afin d’améliorer la navigation, mémoriser certaines préférences et analyser l’utilisation des services proposés.
+          </p>
+
+        </section>
+
+        <section id="droits" class="legal-block">
+
+          <h2>5. Droits des utilisateurs</h2>
+
+          <p>
+            Conformément à la réglementation applicable, les utilisateurs disposent d’un droit d’accès, de rectification et de suppression concernant leurs données personnelles.
+          </p>
+
+        </section>
+
+        <section id="conservation" class="legal-block">
+
+          <h2>6. Conservation des données</h2>
+
+          <p>
+            Les données personnelles sont conservées pendant la durée nécessaire au fonctionnement des services et au respect des obligations légales applicables.
+          </p>
+
+        </section>
+
+        <section id="tiers" class="legal-block">
+
+          <h2>7. Services tiers</h2>
+
+          <p>
+            Certains services externes utilisés par la plateforme peuvent traiter des données dans le cadre du paiement sécurisé, de l’hébergement ou de l’analyse technique du site.
+          </p>
+
+        </section>
+
+        <section id="modification" class="legal-block">
+
+          <h2>8. Modification de la politique</h2>
+
+          <p>
+            Knowledge Learning se réserve le droit de modifier la présente politique de confidentialité afin d’assurer sa conformité avec les évolutions légales et techniques.
+          </p>
+
+        </section>
+
+        <section id="contact" class="legal-block">
+
+          <h2>9. Contact</h2>
+
+          <p>
+            Pour toute question relative à la confidentialité ou à la gestion des données personnelles, vous pouvez contacter notre équipe via la page de contact du site.
+          </p>
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- CTA -->
+    <section class="cta-section-pro">
+  <div class="cta-baner">
+
+    <div class="cta-content">
+      <h2>
+        Commencez votre apprentissage<br>
+        dès aujourd’hui
+      </h2>
+
+      <p>
+        Développez vos compétences grâce à des formations de qualité, conçues pour vous aider à progresser rapidement et efficacement.
+      </p>
+
+      <a href="inscription.html" class="cta-btn">
+        Commencer maintenant
+      </a>
+    </div>
+
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script>
+
+    async function loadLayout(){
+
+      const header =
+      await fetch("components/header.html")
+      .then(r => r.text());
+
+      document.getElementById(
+        "header"
+      ).innerHTML = header;
+
+      const footer =
+      await fetch("components/footer.html")
+      .then(r => r.text());
+
+      document.getElementById(
+        "footer"
+      ).innerHTML = footer;
+
+    }
+
+    loadLayout();
+
+  </script>
+
+</body>
+</html>

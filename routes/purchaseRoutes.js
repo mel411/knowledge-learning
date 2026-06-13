@@ -6,8 +6,4 @@ const { verifyToken } = require('../middlewares/authMiddleware');
 
 router.post('/cursus', verifyToken, purchaseController.buyCursus);
 
-if (purchaseController.buyLesson) {
-  router.post('/lesson', verifyToken, purchaseController.buyLesson);
-}
-
 module.exports = router;

@@ -11,7 +11,7 @@ Il permet aux utilisateurs de suivre des formations en ligne, valider des leçon
 
 - Inscription avec vérification par email
 - Connexion sécurisée avec JWT
-- Achat de cursus et de leçons
+- Achat de formations
 - Accès aux contenus après achat
 - Validation des leçons
 - Obtention automatique de certifications

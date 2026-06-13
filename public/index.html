@@ -7,60 +7,285 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="/images/Favicon.ico">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="icon" href="images/Favicon.ico">
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
   <script src="/auth.js"></script>
 
 </head>
 
 <body>
-
   <div id="header"></div>
+  <!--HERO-->
+  <section class="hero-primary">
+    <div class="container-wide hero-primary-container">
+      <!-- LEFT IMAGE -->
+      <div class="hero-primary-image">
+        <img src="images/image.jpg" alt="learning">
+      </div>
+      <!-- RIGHT TEXT -->
+      <div class="hero-primary-content">
+        <h1 class="hero-primary-title">
+          La façon la plus simple<br>
+          d’apprendre en ligne<br>
+          <span class="highlight-top">et progresser à</span><br>
+          <span class="highlight-bottom">votre rythme</span>
+        </h1>
+        <p class="hero-primary-sub">
+          Accédez à des formations structurées, progressez à votre rythme 
+          et validez vos compétences avec des certificats reconnus.
+        </p>
+        <a href="/lesson.html" class="btn-main">
+          Voir les formations
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <section class="why-section">
+    <div class="container why-container">
+      <div class="why-content">
+        <h2>
+          Apprenez plus intelligemment,<br>
+          <span>pas plus difficilement</span>
+        </h2>
+        <p class="why-desc">
+          Chez Knowledge Learning, nous simplifions l’apprentissage pour le rendre 
+          plus fluide, plus rapide et plus efficace.
+        </p>
+        <p class="why-desc">
+          Accédez à des contenus de qualité, progressez à votre rythme 
+          et développez des compétences concrètes, sans complexité inutile.
+        </p>
+        <a href="/about.html" class="btn-main">
+          En savoir plus
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <section class="stats">
+    <div class="container stats-row">
+      <div class="stat">
+        <h3>+500</h3>
+        <p>Étudiants inscrits</p>
+      </div>
+      <div class="stat">
+        <h3>4.9★</h3>
+        <p>Note moyenne</p>
+      </div>
+      <div class="stat">
+        <h3>Certifié</h3>
+        <p>Formations reconnues</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="reviews">
+    <h2 class="review-titre">
+      Ce que nos utilisateurs disent de nous
+    </h2>
+    <div class="reviews-container">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">
+          "Une plateforme très intuitive et facile à utiliser.
+          J’ai pu apprendre à mon rythme sans pression."
+        </p>
+        <div class="review-user">
+          <strong>Sophie Martin</strong><br>
+          <span>Paris</span>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">
+          "Les formations sont clairs et bien structurés.
+          J’ai vraiment progressé en peu de temps."
+        </p>
+        <div class="review-user">
+          <strong>Lucas Bernard</strong><br>
+          <span>Lyon</span>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">
+          "J’adore la flexibilité de la plateforme.
+          Parfait pour apprendre depuis chez soi."
+        </p>
+        <div class="review-user">
+          <strong>Emma Dubois</strong><br>
+          <span>Bruxelles</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="faq-section">
+    <div class="faq-container">
 
-  <div class="hero"> 
-    <h1>Plateforme e-learning</h1> 
-    <p>Apprendre. Progresser. Réussir.</p> 
+    <div class="faq-header">
+      <h2>Questions fréquentes</h2>
+      <p>Tout ce que vous devez savoir avant de commencer</p>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Comment fonctionne la plateforme ?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Vous accédez à des formations en ligne structurés et progressez à votre rythme avec des contenus adaptés.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Combien de temps faut-il pour terminer une formation ?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          <p>La durée dépend de la formation choisie, mais la plupart peuvent être complétées en quelques semaines. Vous pouvez revenir sur les leçons à tout moment.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Les certificats sont-ils reconnus ?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Nos certificats valident vos compétences et peuvent être valorisés dans votre parcours professionnel.</p>
+        </div>
+      </div>
+
+    </div>
+
+    </div>
+  </section>
+
+<section class="contact-section">
+
+  <div class="contact-container">
+
+    <!-- LEFT -->
+    <div class="contact-left">
+      <span class="contact-tag">Contactez-nous</span>
+
+      <h2>
+        Améliorez votre<br>
+        <span class="highlight">apprentissage</span> en ligne
+      </h2>
+
+      <p class="contact-desc">
+        Notre équipe est là pour vous accompagner. Posez vos questions, 
+        découvrez nos formations ou obtenez de l’aide pour démarrer.
+      </p>
+
+      <ul class="contact-points">
+        <li>Accès à des formations structurées</li>
+        <li>Suivi de progression et certificats</li>
+        <li>Support rapide et personnalisé</li>
+      </ul>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="contact-right">
+      <h3>Contactez-nous</h3>
+      <div class="contact-line"></div>
+
+      <form class="contact-form">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" name="prenom" placeholder="Votre prénom">
+          </div>
+
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" name="nom" placeholder="Votre nom">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="Votre adresse email">
+        </div>
+
+        <div class="form-group">
+          <label>Sujet</label>
+          <input type="text" name="sujet" placeholder="Ex: question sur une formation">
+        </div>
+
+        <div class="form-group">
+          <label>Message</label>
+          <textarea name="message" placeholder="Expliquez votre demande..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-main contact-submit">
+          Envoyer
+        </button>
+
+      </form>
+    </div>
+
   </div>
 
-<div class="container">
+</section>
 
-  <!-- REGISTER -->
-  <h2>Inscription</h2>
-  <input id="registerName" placeholder="Nom">
-  <input id="registerEmail" placeholder="Email">
-  <input id="registerPassword" placeholder="Mot de passe">
-  <button onclick="register()">S'inscrire</button>
+<section class="newsletter-section">
+  <div class="newsletter-container">
 
-  <!-- ACTIVATION INFO -->
-  <p id="registerInfo" style="font-size: 14px; color: #384050;">
-    Après inscription, utilisez le lien d’activation reçu.
-  </p>
+    <h2>
+      Recevez nos contenus <span class="highlight">exclusifs</span>
+    </h2>
 
-  <!-- LOGIN -->
-  <h2>Connexion</h2>
-  <input id="loginEmail" placeholder="Email">
-  <input id="loginPassword" placeholder="Mot de passe">
-  <button onclick="login()">Se connecter</button>
-  <p id="loginMessage"></p>
+    <p class="newsletter-desc">
+      Des conseils, des formations et des ressources sélectionnées pour
+      vous aider à progresser efficacement, directement dans votre boîte mail.
+    </p>
 
-  <!-- THEMES -->
-  <h2>Thèmes disponibles</h2>
-  <ul>
-    <li>Musique</li>
-    <li>Informatique</li>
-    <li>Jardinage</li>
-    <li>Cuisine</li>
-  </ul>
+    <form id="newsletterForm" class="newsletter-form">
+      <input 
+        type="email" 
+        name="email" 
+        id="newsletterEmail"
+        placeholder="Votre adresse email" 
+        autocomplete="email"
+        required
+      >
+      <button type="submit">S’inscrire</button>
+    </form>
 
-  <!-- CURSUS DYNAMIC -->
-  <h2>Cursus disponibles</h2>
-  <ul id="cursusList"></ul>
+    <p class="newsletter-note">
+      Aucun spam. Désinscription en 1 clic.
+    </p>
 
-  <!-- MESSAGE -->
-  <p id="message"></p>
+  </div>
+</section>
 
+  <div id="activationMessage" style="
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #82b864;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  display: none;
+  z-index: 999;
+">
+  Compte activé avec succès !
 </div>
+
+</section>
 
 <script>
 let csrfToken = "";
@@ -72,100 +297,6 @@ async function loadCSRF() {
   });
   const data = await res.json();
   csrfToken = data.csrfToken;
-}
-
-// LOAD CURSUS
-async function loadCursus() {
-  const res = await fetch("/api/cursus", {
-    credentials: "include"
-  });
-  const data = await res.json();
-  console.log(data);
-
-  const container = document.getElementById("cursusList");
-  container.innerHTML = "";
-
-  data.forEach(cursus => {
-    container.innerHTML += `
-      <li class="card">
-        <h3>${cursus.title}</h3>
-        <p class="price">${cursus.price}€</p>
-
-        <a href="/lesson.html?cursus=${cursus.id}" class="link">
-          Voir les leçons
-        </a>
-
-        <button onclick="acheterCursus(${cursus.id}, this)" class="buy-btn">
-          Acheter
-        </button>
-
-        <p class="buy-message"></p>
-      </li>
-    `;
-  });
-}
-
-// REGISTER
-async function register() {
-  const name = document.getElementById("registerName").value;
-  const email = document.getElementById("registerEmail").value;
-  const password = document.getElementById("registerPassword").value;
-
-  const res = await fetch("/api/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "CSRF-Token": csrfToken
-    },
-    body: JSON.stringify({ name, email, password })
-  });
-
-  const data = await res.json();
-
-  const info = document.getElementById("registerInfo");
-
-  if (res.ok) {
-    info.innerText = "Inscription réussie. Vérifiez votre email pour activer votre compte.";
-    info.style.color = "green";
-  } else {
-    info.innerText = data.message || "Erreur lors de l'inscription";
-    info.style.color = "red";
-  }
-}
-
-// LOGIN
-async function login() {
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-
-  const res = await fetch("/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "CSRF-Token": csrfToken
-    },
-    body: JSON.stringify({ email, password })
-  });
-
-  const data = await res.json();
-
-  const el = document.getElementById("loginMessage");
-
-  if (data.token) {
-    token = data.token;
-    localStorage.setItem("token", token);
-
-    localStorage.setItem("userEmail", email);
-
-    updateUserUI();
-
-    el.innerText = "Connexion réussie !";
-    el.className = "success";
-
-  } else {
-    el.innerText = data.message;
-    el.className = "error";
-  }
 }
 
 // check if user is connected
@@ -201,13 +332,13 @@ async function acheterCursus(id, button) {
 
 (async () => {
   await loadCSRF();
-  await loadCursus();
 })();
 
 async function loadUser() {
   const token = localStorage.getItem("token");
 
   const userInfo = document.getElementById("userInfo");
+  if (!userInfo) return;
 
   if (!token) {
     userInfo.innerText = "Invité";
@@ -237,61 +368,199 @@ async function loadUser() {
 
 loadUser();
 
-function updateUserUI() {
-  const userInfo = document.getElementById("userInfo");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    // NOT CONNECTED
-    userInfo.innerText = "Invité";
-    logoutBtn.style.display = "none";
-    return;
-  } 
-  
-  // CONNECTED
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-
-    let email = payload.email;
-
-    if (!email) {
-      email = localStorage.getItem("userEmail");
-    }
-
-    userInfo.textContent = email || "";
-
-    logoutBtn.style.display = "inline-block";
-
-  } catch (e) {
-    userInfo.textContent = "Invité";
-    logoutBtn.style.display = "none";
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  fetch('/header.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header').innerHTML = data;
-
-      updateUserUI(); 
-    })
-    .catch(err => console.error("Header error:", err));
-
+  loadLayout();
 });
 </script>
 
+</div>
+
+<section class="cta-section-pro">
+  <div class="cta-baner">
+
+    <div class="cta-content">
+      <h2>
+        Commencez votre apprentissage<br>
+        dès aujourd’hui
+      </h2>
+
+      <p>
+        Développez vos compétences grâce à des formations de qualité, conçues pour vous aider à progresser rapidement et efficacement.
+      </p>
+
+      <a href="inscription.html" class="cta-btn">
+        Commencer maintenant
+      </a>
+    </div>
+
+  </div>
+</section>
+
 <div id="footer"></div>
 
+<div id="loader" class="loader hidden"></div>
+
 <script>
-fetch('/footer.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('footer').innerHTML = data;
-  });
+const params = new URLSearchParams(window.location.search);
+const status = params.get("activated");
+
+const msg = document.getElementById("activationMessage");
+
+if (status === "true") {
+  msg.style.display = "block";
+  msg.innerText = "Compte activé avec succès 🎉";
+
+  setTimeout(() => {
+    msg.style.display = "none";
+  }, 4000);
+}
+
+if (status === "invalid") {
+  msg.style.display = "block";
+  msg.style.background = "#e74c3c";
+  msg.innerText = "Lien invalide ou expiré";
+
+  setTimeout(() => {
+    msg.style.display = "none";
+  }, 4000);
+}
+
+document.addEventListener("click", (e) => {
+  if (e.target.id === "logoutBtn") {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+
+    window.location.href = "/";
+  }
+});
+
 </script>
 
+<script>
+document.querySelectorAll(".faq-question").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector("span");
+
+    const isOpen = answer.style.maxHeight;
+
+    document.querySelectorAll(".faq-answer").forEach(a => a.style.maxHeight = null);
+    document.querySelectorAll(".faq-question span").forEach(i => i.style.transform = "rotate(0)");
+
+    if (!isOpen) {
+      answer.style.maxHeight = answer.scrollHeight + "px";
+      icon.style.transform = "rotate(45deg)";
+    }
+  });
+});
+</script>
+
+<script>
+
+document
+.querySelector(".contact-form")
+.addEventListener("submit", async(e)=>{
+
+e.preventDefault();
+
+const button=
+document.querySelector(
+".contact-submit"
+);
+
+button.disabled=true;
+button.innerText="Envoi...";
+
+const data={
+
+prenom:
+document.querySelector('[name="prenom"]').value,
+
+nom:
+document.querySelector('[name="nom"]').value,
+
+email:
+document.querySelector('[name="email"]').value,
+
+sujet:
+document.querySelector('[name="sujet"]').value,
+
+message:
+document.querySelector('[name="message"]').value
+
+};
+
+try{
+
+const res=
+await fetch(
+"/api/contact",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:
+JSON.stringify(data)
+
+}
+);
+
+const result=
+await res.json();
+
+alert(
+result.message
+);
+
+if(res.ok){
+
+document
+.querySelector(
+".contact-form"
+)
+.reset();
+
+}
+
+}catch{
+
+alert(
+"Erreur serveur"
+);
+
+}
+
+button.disabled=false;
+
+button.innerText=
+"Envoyer";
+
+});
+
+</script>
+
+<script>
+document.querySelector(".newsletter-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = e.target.email.value;
+
+  const res = await fetch("/api/newsletter", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  const data = await res.json();
+  alert(data.message);
+});
+</script>
 </body>
+
 </html>

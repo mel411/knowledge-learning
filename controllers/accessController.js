@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-// Verify access to a cursus
+// Verify access
 exports.getCursus = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -14,14 +14,14 @@ exports.getCursus = async (req, res) => {
     const result = await db.query(query, [userId, id]);
 
     if (result.rows.length === 0) {
-      return res.status(403).json({ message: "Access denied" });
+      return res.status(403).json({ message: "Accès refusé" });
     }
 
-    return res.json({ message: "Access granted to cursus" });
+    return res.json({ message: "Accès à la formation autorisé" });
 
   } catch (error) {
     console.error("getCursus error:", error);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
@@ -31,7 +31,6 @@ exports.getLesson = async (req, res) => {
     const userId = req.user.id;
     const { id } = req.params;
 
-    // Step 1: Get cursus_id from lesson
     const lessonQuery = `
       SELECT cursus_id FROM lessons WHERE id = $1
     `;
@@ -44,7 +43,7 @@ exports.getLesson = async (req, res) => {
 
     const cursusId = lessonResult.rows[0].cursus_id;
 
-    // Step 2: Check if user purchased cursus
+    // Check if user purchased 
     const purchaseQuery = `
       SELECT * FROM purchases
       WHERE user_id = $1 AND cursus_id = $2

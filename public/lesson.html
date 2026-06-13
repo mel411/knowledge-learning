@@ -3,251 +3,196 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Leçons</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Formations</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="icon" href="images/Favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
   <script src="/auth.js"></script>
-  <link rel="icon" href="/images/Favicon.ico">
-  
 </head>
 
 <body>
-
-<div id="header"></div>
-
-<div class="hero">
-  <h2>Votre formation</h2>
-  <p>Validez vos leçons et progressez</p>
-</div>
-
-<div class="container">
-
-  <div id="lessonsContainer"></div>
-
-</div>
-
-<div id="footer"></div>
-
-<script>
-fetch('/footer.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('footer').innerHTML = data;
-  });
-</script>
-
-<script>
-
-const token = localStorage.getItem("token");
-
-// GET cursus ID from URL
-const params = new URLSearchParams(window.location.search);
-const cursusId = params.get("cursus");
-
-// LOAD LESSONS
-async function loadLessons() {
-
-  const container = document.getElementById("lessonsContainer");
-
-  if (!cursusId) {
-    container.innerHTML = "<p>Aucun cursus sélectionné. Retournez à l'accueil.</p>";
-    return;
-  }
-
-  const res = await fetch(`/api/cursus/${cursusId}/lessons`);
-  console.log("Response:", res);
-
-  const lessons = await res.json();
-  console.log("Lessons:", lessons);
-
-  container.innerHTML = "";
-
-  for (const lesson of lessons) {
-
-    let hasAccess = false;
-    let alreadyValidated = false;
-    let alreadyBought = false;
-
-    if (token) {
-      const resAccess = await fetch(`/api/access/lesson/${lesson.id}`, {
-        headers: {
-          "Authorization": "Bearer " + token
-        }
-      });
-
-      const accessData = await resAccess.json();
-      hasAccess = accessData.access;
-      alreadyBought = accessData.access;
-
-      // check validation
-      const resValidation = await fetch(`/api/validation/check/${lesson.id}`, {
-        headers: {
-          "Authorization": "Bearer " + token
-        }
-      });
-
-      const validationData = await resValidation.json();
-      alreadyValidated = validationData.validated;
-    }
-
-    container.innerHTML += `
-      <div class="lesson-card">
-        <h3>${lesson.title}</h3>
-        <p class="price">${lesson.price}€</p>
-
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Cette leçon vous permet de progresser étape par étape.
+  <div id="header"></div>
+  
+  <section class="page">
+    <div class="hero-secondary">
+      <div class="hero-secondary-left">
+        <h1 class="hero-secondary-title">
+          Developpez votre potentiel<br>
+          <span class="highlight-bottom">vos compétences</span>
+        </h1>
+        <p class="hero-secondary-sub">
+          Explorez des formations structurées, conçues pour vous faire progresser efficacement et valider vos acquis avec des certificats reconnus.
         </p>
-
-        ${hasAccess && lesson.video_url ? `
-          <iframe 
-            width="100%" 
-            height="250" 
-            src="${lesson.video_url}" 
-            frameborder="0" 
-            allowfullscreen>
-          </iframe>
-        ` : `<p style="color: #999;">🔒 Achetez la leçon pour accéder au contenu</p>`}
-
-        <button class="btn-small" 
-          onclick="validateLesson(${lesson.id}, this)"
-          ${!hasAccess || alreadyValidated ? "disabled" : ""}
-        >
-          ${alreadyValidated ? "✔ Leçon validée" : "Valider cette leçon"}
-        </button>
-
-        <button 
-          onclick="buyLesson(${lesson.id}, this)"
-          ${alreadyBought ? "disabled" : ""}
-        >
-          ${alreadyBought ? "✔ Déjà acheté" : "Acheter cette leçon"}
-        </button>
-        
-        <p class="lesson-buy-message"></p>
       </div>
-    `;
-  }
-}
-
-// VALIDATE LESSON
-async function validateLesson(lessonId, button) {
-
-  if (!token) {
-    alert("Veuillez vous connecter");
-    return;
-  }
-
-  const res = await fetch("/api/validation/lesson", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    },
-    body: JSON.stringify({ lesson_id: lessonId })
-  });
-
-  const data = await res.json();
-
-const messageEl = button.parentElement.querySelector(".lesson-buy-message");
-
-if (data.message.includes("complété")) {
-  messageEl.innerText = "Leçon validée + cursus terminé ! Félicitations !";
-} else {
-  messageEl.innerText = "Leçon validée avec succès !";
-}
-
-messageEl.className = "lesson-buy-message success";
-
-if (res.ok) {
-  button.disabled = true;
-  button.innerText = "✔ Leçon validée";
-}
-
-}
-
-// BUY LESSON 
-async function buyLesson(lessonId, button) {
-
-  if (!token) {
-    alert("Veuillez vous connecter");
-    return;
-  }
-
-  const res = await fetch("/api/purchase/lesson", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    },
-    body: JSON.stringify({ lesson_id: lessonId })
-  });
-
-  const data = await res.json();
-
-  const messageEl = button.nextElementSibling;
-
-  if (res.ok) {
-    messageEl.innerText = "Leçon achetée avec succès !";
-  } else {
-    messageEl.innerText = "Erreur lors de l'achat";
-  }
-
-  messageEl.className = res.ok ? "success" : "error";
-
-  if (res.ok) {
-    button.disabled = true;
-    button.innerText = "Déjà acheté";
-  }
-
-  if (res.ok) {
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
-  }
-}
-
-// INIT
-loadLessons();
-
-function updateUserUI() {
-  const userInfo = document.getElementById("userInfo");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if (!userInfo || !logoutBtn) return;
-
+    </div>
+  </section>
+  
+  <div class="courses-wrapper">
+    
+    <!-- FILTERS -->
+    <section class="filters">
+      <h2 class="filters-title">
+        Nos parcours à explorer
+      </h2>
+      <p class="filters-sub">
+        Explorez des parcours conçus pour développer vos passions à votre rythme.
+      </p>
+      <div class="container">
+        <div class="filters-row">
+          <button class="filter-btn active" onclick="filterCourses('all', event)">Tous <span>(6)</span></button>
+          <button class="filter-btn" onclick="filterCourses('Musique', event)">Musique <span>(2)</span></button>
+          <button class="filter-btn" onclick="filterCourses('Informatique', event)">Informatique <span>(1)</span></button>
+          <button class="filter-btn" onclick="filterCourses('Jardinage', event)">Jardinage <span>(1)</span></button>
+          <button class="filter-btn" onclick="filterCourses('Cuisine', event)">Cuisine <span>(2)</span></button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- COURSES -->
+    <section class="courses-section">
+      <div class="container">
+        <div id="coursesGrid" class="courses-grid"></div>
+      </div>
+    </section>
+  </div>
+  
+  <section class="page">
+    <section class="paths-section">
+      <h2>Une expérience d’apprentissage pensée pour progresser</h2>
+      <div class="paths-grid">
+        <div class="path-card">
+          <div class="path-icon">
+            <i class="fa-solid fa-route"></i>
+          </div>
+          <h3>Parcours guidés</h3>
+          <p>
+            Progressez étape par étape avec des formations conçues pour vous accompagner du début à la maîtrise.
+          </p>
+        </div>
+        <div class="path-card">
+          <div class="path-icon">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <h3>Apprentissage pratique</h3>
+          <p>
+            Mettez en application vos connaissances grâce à des projets concrets et stimulants.
+          </p>
+        </div>
+        <div class="path-card">
+          <div class="path-icon">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <h3>Certificats reconnus</h3>
+          <p>Valorisez vos nouvelles compétences avec des certificats utiles et reconnus.</p>
+        </div>
+      </div>
+    </section>
+  </section>
+  
+  <section class="cta-section-pro">
+    <div class="cta-baner">
+      <div class="cta-content">
+        <h2>
+          Commencez votre apprentissage<br>
+          dès aujourd’hui
+        </h2>
+        <p>
+          Développez vos compétences grâce à des formations de qualité, conçues pour vous aider à progresser rapidement et efficacement.
+        </p>
+        <a href="inscription.html" class="cta-btn">
+          Commencer maintenant
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <div id="footer"></div>
+  
+  <script>
   const token = localStorage.getItem("token");
-
-  if (!token) {
-    userInfo.textContent = "Invité";
-    logoutBtn.style.display = "none";
-    return;
+  let allCourses = [];
+  
+  const courseImages = {
+    "Initiation à la guitare": "/images/guitare.jpg",
+    "Initiation au piano": "/images/piano.jpg",
+    "Développement web": "/images/dev.jpg",
+    "Initiation au jardinage": "/images/jardinage.jpg",
+    "Initiation à la cuisine": "/images/cuisine.jpg",
+    "Art du dressage culinaire": "/images/dressage.jpg"
+  };
+  
+  const imagePositions = {
+    "Initiation à la cuisine": "center 70%",
+    "Art du dressage culinaire": "center 75%",
+  };
+  
+  async function loadCourses() {
+    const res = await fetch("/api/cursus");
+    const data = await res.json();
+    allCourses = data;
+    displayCourses(data);
+    console.log("COURSES FROM API:", data);
   }
-
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    let email = payload.email || localStorage.getItem("userEmail");
-
-    userInfo.textContent = email || "";
-    logoutBtn.style.display = "inline-block";
-
-  } catch (e) {
-    userInfo.textContent = "Invité";
-    logoutBtn.style.display = "none";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  fetch('/header.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header').innerHTML = data;
-      updateUserUI();
-    })
-    .catch(err => console.error("Header error:", err));
-});
-
-</script>
-
-</body>
-</html>
+  
+  function displayCourses(courses) {
+    console.log("COURSES:", courses);
+    const grid = document.getElementById("coursesGrid");
+    grid.innerHTML = "";
+    if (courses.length === 0) {
+      grid.innerHTML = '<div class="empty-state">Aucune formation trouvée dans cette catégorie.</div>';
+      return;
+    }
+    courses.forEach(course => {
+      grid.innerHTML += `
+      <div class="course-card">
+        <div class="course-image">
+          <img 
+          src="${courseImages[course.title]}" 
+          alt="${course.title}"
+          style="object-position: ${imagePositions[course.title] || 'center'};"
+          </div>
+        </div>
+        <div class="course-content">
+          <h3>${course.title}</h3>
+          <p class="course-desc">
+            Apprenez étape par étape avec des leçons modernes.
+          </p>
+          <div class="course-bottom">
+            <a href="lessons.html?id=${course.id}" class="btn-lesson">
+              Voir la formation
+            </a>
+          </div>
+        </div>
+        </div>
+        `;
+      });
+    }
+    
+    function filterCourses(theme, event) {
+      document.querySelectorAll(".filter-btn")
+      .forEach(btn => btn.classList.remove("active"));
+      if (event) event.target.classList.add("active");
+      if (theme === "all") {
+        displayCourses(allCourses);
+        return;
+      }
+      
+      const filtered = allCourses.filter(course => {
+        return course.theme === theme;
+      });
+      displayCourses(filtered);
+    }
+    loadCourses();
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      loadLayout();
+    });
+    </script>
+    </body>
+    </html>
