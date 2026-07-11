@@ -1,86 +1,132 @@
 # Knowledge Learning
 
-Projet e-learning développé en Node.js avec Express et MySQL.
+## À propos du projet
 
-Ce projet a été réalisé dans le cadre d’une formation en développement web.  
-Il permet aux utilisateurs de suivre des formations en ligne, valider des leçons et obtenir des certifications.
+Knowledge Learning est une plateforme d’apprentissage en ligne que j’ai développée dans le cadre de ma formation **Développeur Web et Web Mobile (DWWM)**.
+
+L’objectif était de concevoir une application web complète permettant aux utilisateurs de créer un compte, consulter un catalogue de formations, acheter des cursus, suivre leur progression et obtenir un certificat une fois leur formation terminée.
+
+Ce projet m’a permis de mettre en pratique l’ensemble des compétences acquises pendant ma formation, aussi bien en développement front-end qu’en développement back-end.
 
 ---
 
-## Fonctionnalités
+## Fonctionnalités principales
 
-- Inscription avec vérification par email
-- Connexion sécurisée avec JWT
-- Achat de formations
-- Accès aux contenus après achat
-- Validation des leçons
-- Obtention automatique de certifications
-- Backoffice administrateur (gestion utilisateurs et achats)
+### Espace utilisateur
+
+- Création de compte
+- Activation du compte par e-mail
+- Connexion sécurisée
+- Réinitialisation du mot de passe
+- Consultation du catalogue de formations
+- Achat d’une formation (paiement simulé)
+- Accès aux leçons
+- Suivi de la progression
+- Historique des achats
+- Gestion des certificats
+- Tableau de bord personnel
+
+### Espace administrateur
+
+- Gestion des utilisateurs
+- Gestion des formations
+- Gestion des cursus et des leçons
+- Gestion des achats
+- Gestion des certificats
+- Attribution des rôles
 
 ---
 
 ## Technologies utilisées
 
+### Front-end
+- HTML5
+- CSS3
+- JavaScript
+
+### Back-end
 - Node.js
 - Express.js
-- MySQL
-- JWT (authentification)
-- bcrypt (hash des mots de passe)
-- Jest (tests backend)
-- HTML / CSS / JavaScript (frontend)
+
+### Base de données
+- PostgreSQL
+- Supabase
+
+### Sécurité
+- Supabase Auth
+- JWT
+- bcrypt
+- Middlewares de protection
+
+### Outils
+- Visual Studio Code
+- Git
+- GitHub
+- Nodemailer
+- Jest
+- Supertest
 
 ---
 
-## Installation
+## Architecture
 
-1. Cloner le projet
+Le projet est organisé selon une architecture **MVC (Model – View – Controller)** afin de séparer les différentes responsabilités de l'application et faciliter sa maintenance.
 
-```bash
-git clone <(https://github.com/mel411/knowledge-learning)>
-cd knowledge-learning-backend
+```
+config/
+controllers/
+middlewares/
+public/
+routes/
+services/
+tests/
+```
 
-2. Installer les dépendances
+---
 
-npm install
+## Sécurité
 
-3. Configurer le fichier .env
+Plusieurs mécanismes ont été mis en place afin de sécuriser l'application :
 
-Créer un fichier `.env` avec les variables suivantes :
+- authentification avec JWT ;
+- chiffrement des mots de passe avec bcrypt ;
+- vérification de l'adresse e-mail ;
+- protection des routes sensibles ;
+- gestion des rôles utilisateurs.
 
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=knowledge_learning
-JWT_SECRET=secret
-
-4. Lancer le serveur
-
-npm start
+---
 
 ## Tests
 
-Les tests backend sont réalisés avec Jest.
-
-Pour lancer les tests :
-
-npm test
-
+Des tests ont été réalisés avec **Jest** et **Supertest** afin de vérifier le bon fonctionnement des principales routes de l'API, notamment celles liées à l'authentification.
 
 ---
 
-## API
+## Améliorations possibles
 
-Routes principales :
+Si je devais poursuivre le développement du projet, j'aimerais notamment :
 
-- /api/auth → inscription / connexion
-- /api/purchase → achat de contenu
-- /api/access → vérification d’accès
-- /api/validation → validation des leçons
-- /api/certifications → certifications
-- /api/admin → backoffice
+- intégrer un véritable système de paiement avec Stripe ;
+- permettre aux utilisateurs de laisser un avis sur les formations ;
+- améliorer encore la version mobile ;
+- ajouter davantage de statistiques dans le tableau de bord.
+
+---
+
+## Ce que ce projet m'a apporté
+
+La réalisation de Knowledge Learning m'a permis de développer une vision plus complète d'un projet web.
+
+J'ai appris à concevoir une base de données relationnelle, développer une API REST, sécuriser une application, organiser un projet avec une architecture MVC et réaliser des tests afin de garantir le bon fonctionnement des fonctionnalités.
+
+Au-delà des compétences techniques, ce projet m'a également appris à mieux organiser mon travail, résoudre des problèmes de manière autonome et mener un projet du début jusqu'à sa finalisation.
+
+---
 
 ## Auteur
 
-Projet réalisé dans le cadre d’une formation en développement web.
+**Melina Yorgova**
 
-lien render: https://knowledge-learning-1-3im1.onrender.com
+Projet réalisé dans le cadre du **Titre Professionnel Développeur Web et Web Mobile (DWWM)**
+
+Centre Européen de Formation – Session 2026
